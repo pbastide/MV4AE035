@@ -1,0 +1,29 @@
+# R files
+*.Rhistory
+*.RData
+*.Rout
+*.rdb
+*.rdx
+*__*
+*.Rproj.user*
+*_hcode.R
+CM/*.pdf
+# System specific files
+*.DS_Store
+*~
+*.swp
+*.swo
+# Latex
+*.synctex.gz
+*.out
+*.log
+*.aux
+*.gnuplot
+*.table
+*.snm
+*.latexmain
+*.toc
+*.nav
+*_minted*
+# Xournalpp
+*.xopp

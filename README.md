@@ -1,0 +1,55 @@
+# MT6BM020 - Régression Linéaire
+
+Dépôt `git` en support du cours [MT6BM020](https://moodle.u-paris.fr/course/view.php?id=6519).
+
+## Ressources
+
+* Le [polycopié](https://perso.lpsm.paris/~aguyader/files/teaching/Regression.pdf) de Arnaud Guyader.
+
+* [Le modèle linéaire et ses extensions](http://moulon.inra.fr/modelstat/supports/ModeleLineaireEt_Extensions-compressed.pdf), L. Bel, JJ. Daudin, M. Etienne, E. Lebarbier, T. Mary-Huard, S. Robin, C. Vuillet
+
+* [An Introduction to Statistical Learning](https://statlearning.com/), G. James, D. Witten, T. Hastie and R. Tibshirani
+
+## Supports de cours
+
+* [CM1: Régression simple - MCO](CM/CM1_regression_simple.html)
+* [CM1: Régression simple - Gaussien](CM/CM1_regression_simple_gauss.html)
+
+## TDs
+
+* [TD1: Régression simple](TD/TD_1.pdf)
+
+## Contributions
+
+* Créer une "pull request" (PR) à partir d'une branche séparée.
+
+* Respecter la structure des dossiers.
+
+* Messages de "commits" et "PR" informatifs :
+	* partie du cours visée
+	* type de PR (correction ou nouvelle fiche)
+	* nature de l'erreur
+	* ...
+
+## Evaluations
+
+* 1/3 examen intermédiaire (EI)
+
+* 1/6 TP noté
+
+* 1/2 examen final
+
+## Points bonus
+
+* Typos et erreurs dans les diapos et fiches
+  * k-ème PR accepté = $\frac{1}{2^{k}}$ points en plus sur la note du EI.
+  * Vaut aussi pour les fiches de vos collègues.
+  
+* Fiches synthétiques
+  * k-ème fiche acceptée (PR) = $\frac{1}{2^{k-1}}$ points en plus sur la note du EI.
+
+## `quarto`
+
+* [Guide complet](https://quarto.org/docs/get-started/)
+
+* [Cheat sheet](https://rstudio.github.io/cheatsheets/html/quarto.html)
