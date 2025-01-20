@@ -1,6 +1,7 @@
 # MT6BM020 - Régression Linéaire
 
-Dépôt `git` en support du cours [MT6BM020](https://moodle.u-paris.fr/course/view.php?id=6519).
+Page du cours [MT6BM020](https://moodle.u-paris.fr/course/view.php?id=6519),
+déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 
 ## Ressources
 
@@ -10,26 +11,16 @@ Dépôt `git` en support du cours [MT6BM020](https://moodle.u-paris.fr/course/vi
 
 * [An Introduction to Statistical Learning](https://statlearning.com/), G. James, D. Witten, T. Hastie and R. Tibshirani
 
+* [Quarto cheat sheet](https://rstudio.github.io/cheatsheets/html/quarto.html)
+
 ## Supports de cours
 
 * [CM1: Régression simple - MCO](CM/CM1_regression_simple.html)
 * [CM1: Régression simple - Gaussien](CM/CM1_regression_simple_gauss.html)
 
-## TDs
+## Cheat Sheets
 
-* [TD1: Régression simple](TD/TD_1.pdf)
-
-## Contributions
-
-* Créer une "pull request" (PR) à partir d'une branche séparée.
-
-* Respecter la structure des dossiers.
-
-* Messages de "commits" et "PR" informatifs :
-	* partie du cours visée
-	* type de PR (correction ou nouvelle fiche)
-	* nature de l'erreur
-	* ...
+* [Usual Distributions](cheatsheets/usual_distributions.html)
 
 ## Evaluations
 
@@ -47,9 +38,15 @@ Dépôt `git` en support du cours [MT6BM020](https://moodle.u-paris.fr/course/vi
   
 * Fiches synthétiques
   * k-ème fiche acceptée (PR) = $\frac{1}{2^{k-1}}$ points en plus sur la note du EI.
+  
+## Contributions
 
-## `quarto`
+* Créer une "pull request" (PR) à partir d'une branche séparée.
 
-* [Guide complet](https://quarto.org/docs/get-started/)
+* Respecter la structure des dossiers.
 
-* [Cheat sheet](https://rstudio.github.io/cheatsheets/html/quarto.html)
+* Messages de "commits" et "PR" informatifs :
+	* partie du cours visée
+	* type de PR (correction ou nouvelle fiche)
+	* nature de l'erreur
+	* ...

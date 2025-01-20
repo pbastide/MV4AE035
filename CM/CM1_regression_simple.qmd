@@ -65,7 +65,9 @@ G. James, D. Witten, T. Hastie and R. Tibshirani
 
 ## GitHub MT6BM020
 
-* https://github.com/pbastide/MT6BM020
+* https://pbastide.github.io/MT6BM020/
+
+* Dépôt `git`: https://github.com/pbastide/MT6BM020
 
 * Les diapos sont dans `CM`
   * en anglais
