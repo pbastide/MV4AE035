@@ -18,6 +18,10 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 * [CM1: Régression simple - MCO](CM/CM1_regression_simple.html)
 * [CM2: Régression simple - Gaussien](CM/CM1_regression_simple_gauss.html)
 
+## TDs
+
+* [TD1: Régression simple](TD/TD_1.pdf)
+
 ## Cheat Sheets
 
 * [Usual Distributions](cheatsheets/usual_distributions.html)

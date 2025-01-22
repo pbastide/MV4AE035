@@ -27,3 +27,4 @@ CM/*.pdf
 *_minted*
 # Xournalpp
 *.xopp
+.Rproj.user
