@@ -398,21 +398,19 @@ $$
 * Likelihood of $\mathbf{y} = (y_1, \dotsc, y_n)^T$:
 $$
 \begin{aligned}
-&L(\beta_0, \beta_1, \sigma^2 | y_1, \dotsc, y_n)
-= \prod_{i = 1}^n L(\beta_0, \beta_1, \sigma^2 | y_i)\\
-&\qquad = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(y_i - \beta_0 - \beta_1 x_i)^2}{2\sigma^2}\right)\\
-&\qquad = \frac{1}{\left(\sqrt{2\pi\sigma^2}\right)^n}\exp\left(-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2\right)\\
-&\log L(\beta_0, \beta_1, \sigma^2 | y_1, \dotsc, y_n) = \cdots
+L(\beta_0, \beta_1, \sigma^2 | y_1, \dotsc, y_n)
+&= \prod_{i = 1}^n L(\beta_0, \beta_1, \sigma^2 | y_i)\\
+&= \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(y_i - \beta_0 - \beta_1 x_i)^2}{2\sigma^2}\right)\\
+&= \frac{1}{\left(\sqrt{2\pi\sigma^2}\right)^n}\exp\left(-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2\right)\\
+\log L(\beta_0, \beta_1, \sigma^2 | y_1, \dotsc, y_n) &= \cdots
 \end{aligned}
 $$
 
 ## Log-Likelihood of $\mathbf{y}$
 
 $$
-\begin{aligned}
-&\log L(\beta_0, \beta_1, \sigma^2 | y_1, \dotsc, y_n) = \\
-&\qquad  - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2\\
-\end{aligned}
+\log L(\beta_0, \beta_1, \sigma^2 | y_1, \dotsc, y_n) 
+= - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2
 $$
 
 . . .  
@@ -431,19 +429,15 @@ $$
 ## ML Estimators - $\beta_0$ and $\beta_1$
 
 $$
-\begin{aligned}
-&\log L(\beta_0, \beta_1, \sigma^2 | \mathbf{y}) = \\
-&\qquad  - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2\\
-\end{aligned}
+\log L(\beta_0, \beta_1, \sigma^2 | \mathbf{y})
+= - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2
 $$
 
 ## ML Estimators - $\beta_0$ and $\beta_1$
 
 $$
-\begin{aligned}
-&\log L(\beta_0, \beta_1, \sigma^2 | \mathbf{y}) = \\
-&\qquad  - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\underbrace{\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2}_{\text{Sum of Squares } SS(\beta_0, \beta_1)}\\
-\end{aligned}
+\log L(\beta_0, \beta_1, \sigma^2 | \mathbf{y})
+= - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\underbrace{\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2}_{\text{Sum of Squares } SS(\beta_0, \beta_1)}
 $$
 
 . . .  
@@ -462,10 +456,8 @@ $$
 ## ML Estimators - $\beta_0$ and $\beta_1$
 
 $$
-\begin{aligned}
-&\log L(\beta_0, \beta_1, \sigma^2 | \mathbf{y}) = \\
-&\qquad  - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\underbrace{\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2}_{\text{Sum of Squares } SS(\beta_0, \beta_1)}\\
-\end{aligned}
+\log L(\beta_0, \beta_1, \sigma^2 | \mathbf{y})
+= - \frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\underbrace{\sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_i)^2}_{\text{Sum of Squares } SS(\beta_0, \beta_1)}
 $$
 
 $$
