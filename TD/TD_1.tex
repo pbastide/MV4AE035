@@ -389,6 +389,31 @@
 		Elle est donc bien minimisé en la médiane $(y_p + y_{p+1})/2$.
 		}
 		
+		\item Soient $w_{1}, \ldots, w_{n}$ des poids positifs tels que $\sum_{i=1}^n w_i = 1$.
+		Quel est le réel qui minimise la distance 
+		\(
+		D(x) = \sum_{i=1}^n w_i (y_i - x)^2
+		\) ?
+		\cor{
+		En annulant la dérivée 
+		$D'(x) = -2 \sum_{i=1}^n w_i (y_i - x)$,
+		on trouve que le minimiseur est la moyenne pondérée $\sum_{i=1}^n w_i y_i$.
+		}
+		\item On définit la médiane pondérée des $y_i$ comme l'élément $y_k$ tel que
+		\(
+		\sum_{i=1}^{k-1} w_i \leq \frac{1}{2}
+		\)
+		et
+		\(
+		\sum_{i=k+1}^n w_i \leq \frac{1}{2}.
+		\)
+		Montrez que la médiane pondérée est le réel qui minimize la distance\;:
+		\(
+		D(x) = \sum_{i=1}^n w_i |y_i - x|
+		\).
+		\cor{
+		La preuve est similaire au cas précédent, mais en utilisant les poids.
+		}
 	\end{enumerate}
 	
 	\cor{\newpage}
@@ -410,6 +435,15 @@
 		est minimisée en $\tilde \beta_0 = \mbox{med}(\mathbf{y} - \beta_1 \mathbf{x})$ d'après l'exercice précédent.
 		}
 		\item En déduire un algorithme pour obtenir $\tilde{\beta}_{0}$ et $\tilde{\beta}_{1}$.
+		\cor{
+		On initialise $\beta_1^0$ à une valeur quelconque, par exemple l'estimateur des moindres carrés.
+		On procède ensuite de maniière itérative :
+		\begin{align*}
+		\beta_0^{k+1} &= \mbox{med}(y_i - \beta_1^{k} x_i)\\
+		\beta_1^{k+1} &= \mbox{med}(\frac{y_i - \beta_0^{k+1}}{x_i}; w_i)
+		\end{align*}
+		où la seconde médiane est pondérée par les $w_i = \frac{|x_i|}{\sum_{j=1}^n |x_j|}$.
+		}
 	\end{enumerate}
 	
 	
