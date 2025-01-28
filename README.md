@@ -16,7 +16,7 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 ## Supports de cours
 
 * [CM1: Régression simple - MCO](CM/CM1_regression_simple.html)
-* [CM2: Régression simple - Gaussien](CM/CM1_regression_simple_gauss.html)
+* [CM2: Régression simple - Gaussien](CM/CM2_regression_simple_gauss.html)
 * [CM3: Régression multiple - MCO](CM/CM3_Regression_Multiple_OLS.html)
 * [CM4: Régression multiple - Gaussien](CM/CM4_Regression_Multiple_Gauss.html)
 
