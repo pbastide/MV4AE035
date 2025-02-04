@@ -436,7 +436,7 @@ The OLS regression line goes through the gravity point $(\bar{x}, \bar{y})$
 
 * $\hat{\beta}_0$ and $\hat{\beta}_1$ are **linear** in the data $\mathbf{y} = (y_1, \cdots, y_n)^T$.
 $$
-\hat{\beta}_1 = \sum_{i=1}^n p_i y_i \qquad p_i = \frac{(x_i - \bar{x})}{s_{\mathbf{x}}^2}
+\hat{\beta}_1 = \sum_{i=1}^n p_i y_i \qquad p_i = \frac{(x_i - \bar{x})}{n \cdot s_{\mathbf{x}}^2}
 $$
 
 <!-- ************************************************************************ -->
