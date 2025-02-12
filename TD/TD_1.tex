@@ -178,7 +178,7 @@
 		&= 1.970275 \times (1 + 1/12 + (70 - 800 / 12)^2 / (53418 - 800^2/12))
 		= 2.393031
 		\end{align*}
-		Si on supppose qu'opproximativement :
+		Si on supppose qu'approximativement :
 		\[
 		f_{n+1} \sim \mathcal{N}(\hat f_{n+1}, \hat \sigma^2_{n+1}) 
 		\]
@@ -186,9 +186,9 @@
 		\[
 		\mathbb{P}[f_{n+1} \geq 80] \approx 1.278977e^{-12}
 		\]
-		Il est très peut probable que le fils de cet homme fasse $80kg$.
+		Il est très peu probable que le fils de cet homme fasse $80kg$.
 		
-		\textbf{Note}: pour faire les choses de manière rigoureuses, il faut faire un test de Student (voir exercice suivant).
+		\textbf{Note}: pour faire les choses de manière rigoureuse, il faut faire un test de Student (voir exercice suivant).
 		
 % 		Sous l'hypothèse gaussienne : 
 % 		\[
@@ -246,7 +246,7 @@
 		Ce résultat était-il prévisible ?
 		\cor{
 		Comme les $\epsilon_i$ sont non corrélés et de variance $\sigma^2$, 
-		n obtient grâce qux expressions précédentes :
+		on obtient grâce aux expressions précédentes :
 		\[
 		\mathbb{V}[\hat\beta] 
 		= \frac{\sum_{i=1}^{n} x_{i}^2\sigma^2}{[\sum_{i=1}^{n} x_{i}^{2}]^2}
@@ -382,7 +382,7 @@
 		= - \sum_{i=1}^j y_i + \sum_{i=j+1}^n y_i + (2j - n) x
 		\]
 		Si $n = 2 p + 1$, la pente est négative pour $j \leq p$, puis positive pour $j \geq p+1$.
-		Le minimum est alors atteind en $y_{p+1}$, qui est bien la médiane par définition.
+		Le minimum est alors atteint en $y_{p+1}$, qui est bien la médiane par définition.
 		
 		Si $n = 2p$, la pente est négative pour $j \leq p-1$, nulle pour $j = p$, puis positive pour $j \geq p$.
 		La fonction est constante entre $y_p$ et $y_{p+1}$ et vaut sa valeur minimale.
@@ -407,7 +407,7 @@
 		\(
 		\sum_{i=k+1}^n w_i \leq \frac{1}{2}.
 		\)
-		Montrez que la médiane pondérée est le réel qui minimize la distance\;:
+		Montrez que la médiane pondérée est le réel qui minimise la distance\;:
 		\(
 		D(x) = \sum_{i=1}^n w_i |y_i - x|
 		\).
@@ -573,7 +573,7 @@
 	T_{obs} = \frac{-0.2193563}{\sqrt{0.00128125}} = -6.128203
 	\]
 	On rejette donc $H_0$ au niveau de risque $5\%$ : 
-	l'age a bien une influence sur la fréquence cardiaque.
+	l'âge a bien une influence sur la fréquence cardiaque.
 	}
 	\item Pouvez-vous prédire la fréquence cardiaque d'un sportif de $57$ ans ? De $0$ ans ? De $817$ ans ?
 	Donnez les intervalles de prédictions. Interpettez.
@@ -627,7 +627,7 @@
 		[-56.11851 ; 57.13692]
 		\]
 		Les predictions pour les valeurs loins du centre de gravité sont mauvaises,
-		voire abérentes.
+		voire aberrantes.
 	}
 	\end{enumerate}
 	
