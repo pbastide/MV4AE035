@@ -1062,48 +1062,14 @@ $$
 $$
 \begin{aligned}
 \mathbb{Cov}[\bar{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]
-& = \mathbb{E}[\bar{\boldsymbol{\beta}} \hat{\boldsymbol{\beta}}^T] 
-- \mathbb{E}[\bar{\boldsymbol{\beta}}]\mathbb{E}[\hat{\boldsymbol{\beta}}]^T \\
-& = \mathbb{E}[\mathbf{B} \mathbf{y} [(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}]^T] 
-- \boldsymbol{\beta}\boldsymbol{\beta}^T \\
-& = \mathbf{B} \mathbb{E}[\mathbf{y}\mathbf{y}^T]\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}
-- \boldsymbol{\beta}\boldsymbol{\beta}^T \\
+& = \mathbb{Cov}[\mathbf{B} \mathbf{y}; (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}]\\
+& = \mathbf{B} \mathbb{Cov}[\mathbf{y}; \mathbf{y}] [(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T]^T\\
+& = \mathbf{B} [\sigma^2 \mathbf{I}_n] \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\\
+& = \sigma^2 \mathbf{B} \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\\
+& = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}
 \end{aligned}
 $$
-
-
-and:
-$$
-\mathbb{E}[\mathbf{y}\mathbf{y}^T]
-=
-\mathbb{Var}[\mathbf{y}] + 
-\mathbb{E}[\mathbf{y}]\mathbb{E}[\mathbf{y}]^T
-=
-\sigma^2 \mathbf{I}_n + \mathbf{X}\boldsymbol{\beta}\boldsymbol{\beta}^T\mathbf{X}^T
-$$
-
-
-hence:
-$$
-\begin{aligned}
-\mathbb{Cov}[\bar{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]
- = \sigma^2 \mathbf{B}\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}
-+ \mathbf{B}\mathbf{X}\boldsymbol{\beta}\boldsymbol{\beta}^T\mathbf{X}^T \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}
-- \boldsymbol{\beta}\boldsymbol{\beta}^T \\
-\end{aligned}
-$$
-
-
-as $\mathbf{B} \mathbf{X} = \mathbf{I}_n$:
-$$
-\begin{aligned}
-\mathbb{Cov}[\bar{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]
- = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}
-+ \boldsymbol{\beta}\boldsymbol{\beta}^T
-- \boldsymbol{\beta}\boldsymbol{\beta}^T
- = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}
-\end{aligned}
-$$
+as $\mathbf{B} \mathbf{X} = \mathbf{I}_n$.
 
 ## Gauss-Markov - Proof - 6/6 
 
@@ -1299,42 +1265,17 @@ $$
 \mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}] = \mathbf{0}.
 $$
 
-## Covariance of $\hat{\boldsymbol{\epsilon}}$ and $\hat{\mathbf{y}}$ - Proof {.build}
+. . .
 
 $$
-\mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}] 
-= \mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \mathbf{y} - \hat{\boldsymbol{\epsilon}}] 
-= \cdots
-$$
-
-$$
-\mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}] 
-= \mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \mathbf{y}] - \mathbb{Var}[\hat{\boldsymbol{\epsilon}}]
-= \cdots
-$$
-
-$$
-\mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}] 
-= \mathbb{Cov}[\mathbf{P}^{\mathbf{X}^\bot}\mathbf{y}; \mathbf{y}] - \sigma^2\mathbf{P}^{\mathbf{X}^\bot}
-= \cdots
-$$
-
-$$
-\mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}] 
-= \mathbf{P}^{\mathbf{X}^\bot}\mathbb{Var}[\mathbf{y}] - \sigma^2\mathbf{P}^{\mathbf{X}^\bot}
-= \cdots
-$$
-
-$$
-\mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}] 
-= \mathbf{P}^{\mathbf{X}^\bot}[\sigma^2\mathbf{I}_n] - \sigma^2\mathbf{P}^{\mathbf{X}^\bot}
-= \cdots
-$$
-
-$$
-\mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}] 
-= \sigma^2 \mathbf{P}^{\mathbf{X}^\bot}- \sigma^2\mathbf{P}^{\mathbf{X}^\bot}
-= \mathbf{0}.
+\begin{aligned}
+\mathbb{Cov}[\hat{\boldsymbol{\epsilon}}; \hat{\mathbf{y}}]
+& = \mathbb{Cov}[\mathbf{P}^{\mathbf{X}^\bot} \mathbf{y}; \mathbf{P}^{\mathbf{X}} \mathbf{y}] \\
+& = \mathbf{P}^{\mathbf{X}^\bot} \mathbb{Cov}[\mathbf{y}; \mathbf{y}] [\mathbf{P}^{\mathbf{X}}]^T \\
+& = \mathbf{P}^{\mathbf{X}^\bot} [\sigma^2 \mathbf{I}_n] \mathbf{P}^{\mathbf{X}} \\
+& = \sigma^2 \mathbf{P}^{\mathbf{X}^\bot} \mathbf{P}^{\mathbf{X}} \\
+& = \mathbf{0}
+\end{aligned}
 $$
 
 <!-- ************************************************************************ -->
