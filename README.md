@@ -23,6 +23,7 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 ## TDs
 
 * [TD1: Régression simple](TD/TD_1.pdf)
+* [TD2: Régression multiple](TD/TD_2.pdf)
 
 ## Cheat Sheets
 
