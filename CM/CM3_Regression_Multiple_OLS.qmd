@@ -335,7 +335,7 @@ $$
 \leq \|\mathbf{x}\| + \|\mathbf{y}\| \qquad \text{(Triangle Inequality)}
 $$
 
-## Reminder: Orthogonal Projection - 1/3 {.build}
+## Reminder: Orthogonal Projection - 1/4 {.build}
 
 Let $\mathbf{y} \in \mathbb{R}^n$,  
 $(\mathbf{x}_1, \dotsc, \mathbf{x}_p) \in \mathbb{R}^n \times \dotsb \times \mathbb{R}^n$
