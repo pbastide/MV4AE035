@@ -447,7 +447,7 @@ $$
 ## Chi Squared Distribution
 
 **Definition**:  
-Let $X_1, \dotsc, X_p$ be $p$ standard normal iid rv : $X_i \sim \mathcal{N}(0, 1)$.
+Let $X_1, \dotsc, X_p$ be $p$ standard normal iid r.v. : $X_i \sim \mathcal{N}(0, 1)$.
 $$
 X = \sum_{i = 1}^p X_i^2 \sim \chi^2_p
 $$ 
