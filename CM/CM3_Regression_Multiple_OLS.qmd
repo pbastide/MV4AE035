@@ -419,7 +419,7 @@ $\mathbf{P}\mathbf{x}$ is the projection on $\text{Im}(\mathbf{P})$,
 parallel to $\text{Ker}(\mathbf{P})$.
 
 * If $\mathbf{P}$ is a projection matrix, then $\mathbf{P}$ is an orthogonal projection matrix
-if for any
+if and only if for any
 $\mathbf{x} \in \mathbb{R}^n$, we have:
 $$
 \mathbf{x} = \mathbf{P}\mathbf{x} + (\mathbf{I}_n - \mathbf{P})\mathbf{x}
