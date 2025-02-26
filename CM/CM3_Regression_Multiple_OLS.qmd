@@ -904,7 +904,7 @@ $$
 
 ## Partial order on Symmetric matrices
 
-**Definition** Let $\mathbf{S}_1$ and $\mathbf{S}_2$ two real $n\times n$ symmetric matrices.  
+**Definition:** Let $\mathbf{S}_1$ and $\mathbf{S}_2$ two real $n\times n$ symmetric matrices.  
 We say that $\mathbf{S}_1$ is smaller than $\mathbf{S}_2$, and write
 $$\mathbf{S}_1 \leq \mathbf{S}_2$$
 iif $\mathbf{S}_2 - \mathbf{S}_1$ is
