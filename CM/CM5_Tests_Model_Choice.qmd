@@ -819,7 +819,7 @@ $$
 
 ## Nested F test {.build}
 
-From Phythagoras's theorem:
+From Pythagoras's theorem:
 $$
 \begin{aligned}
 \|\mathbf{y} -  \hat{\mathbf{y}}_0\|^2
