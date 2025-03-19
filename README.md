@@ -31,6 +31,11 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 
 * [Usual Distributions](cheatsheets/usual_distributions.html)
 
+## Annales
+
+* Examen intermédiaire :
+  - CC 2025 : [énoncé](exams/2025_CC.pdf) et [corrigé](exams/2025_CC_cor.pdf).
+
 ## Evaluations
 
 * 1/3 examen intermédiaire (EI)
