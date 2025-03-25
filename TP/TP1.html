@@ -3277,7 +3277,7 @@ window.Quarto = {
 <section id="quarto" class="level2">
 <h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
 <p>Ce document est écrit en <a href="https://quarto.org/"><code>quarto</code></a>, un langage formaté qui permet de mélanger du texte (en <code>markdown</code>) et du code (ici, du <code>R</code>).</p>
-<p>Nous utilisons ici <code>Rstudio</code>, un tutoriel de présentation est disponible <a href="https://quarto.org/docs/get-started/hello/rstudio.html">ici</a>. Vous pouvez utiliser un autre IDE en fonction de votre préférence, à vos risques et périls.</p>
+<p>Nous utilisons ici <code>Rstudio</code>, un tutoriel de présentation est disponible <a href="https://quarto.org/docs/get-started/hello/rstudio.html">ici</a>. Vous pouvez utiliser un autre IDE en fonction de votre préférence, mais ce TP part du principe que vous utilisez <code>Rstudio</code>.</p>
 <p>Vous pouvez partir de ce document pour créer votre rapport, ou bien en créer un nouveau depuis <code>Rstudio</code>: <code>File &gt; New File &gt; Quarto Document...</code>.</p>
 </section>
 <section id="données" class="level2">
@@ -3302,12 +3302,15 @@ window.Quarto = {
 6 0.02985  0  2.18    0 0.458 6.430 58.7 6.0622   3 222    18.7  5.21 28.7</code></pre>
 </div>
 </div>
+<blockquote class="blockquote">
+<p>Note: le jeu de données <code>Boston</code> est présent dans les deux libraries <code>MASS</code> et <code>ISLR2</code>, légèrement modifié dans la seconde. On prendra garde à bien charger les libraries dans cet ordre (<code>MASS</code> d’abord, puis <code>ISLR2</code>) pour travailler sur la bonne version des données.</p>
+</blockquote>
 <p>Une description du jeu de données peut être obtenue dans l’aide, en tapant dans la console :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>?Boston</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="1">
-<li>Décrire brièvement le jeu de données. Qu’est-ce qu’un “individu” <span class="math inline">\(i\)</span> dans ces données ? Combien y en a t il ? Combien y-a-t-il de variables ? Décrivez brièvement ces variables, en précisant leur type (discret ou continu).</li>
+<li>Décrire brièvement le jeu de données. Qu’est-ce qu’un “individu” <span class="math inline">\(i\)</span> dans ces données ? Combien y en a t il ? Combien y a t il de variables ? Décrivez brièvement ces variables, en précisant leur type (discret ou continu).</li>
 </ol>
 </section>
 <section id="régression-simple" class="level2">
@@ -3321,7 +3324,7 @@ window.Quarto = {
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Boston, <span class="fu">aes</span>(<span class="at">x =</span> lstat, <span class="at">y =</span> medv)) <span class="sc">+</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ol start="2" type="1">
+<ol start="3" type="1">
 <li><p>Faire la régression linéaire simple de <code>medv</code> en fonction de <code>lstat</code> à l’aide de la fonction <code>lm</code>. Interprétez les coefficients. Sont-ils significativement non nuls ? Donnez un intervalle de confiance à <span class="math inline">\(90%\)</span> des coefficients. On pourra utiliser les fonctions <code>summary</code>, <code>coef</code> et <code>confint</code>.</p></li>
 <li><p>Tracez la droite de régression sur le nuage de points en utilisant le code suivant. Que pensez-vous de l’ajustement du modèle ? Est-ce cohérent avec le résultat de l’ajustement linéaire ?</p></li>
 </ol>
@@ -3330,7 +3333,7 @@ window.Quarto = {
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ol start="4" type="1">
+<ol start="5" type="1">
 <li><p>Donnez un intervalle de prédiction à <span class="math inline">\(95%\)</span> pour la valeur de <code>medv</code> lorsque <code>lstat</code> vaut <span class="math inline">\(2\)</span>, <span class="math inline">\(15\)</span>, <span class="math inline">\(30\)</span> et <span class="math inline">\(50\)</span> pourcent à l’aide de la fonction <code>predict</code>. Quand est-ce que l’intervalle est le plus grand ? Est-ce surprenant ? Discutez de la validité des prédictions, en particulier pour <code>lstat=50</code>.</p></li>
 <li><p>Par défaut, <code>ggplot</code> dans le code de la fonction ci-dessus trace une zone d’incertitude en grisé. S’agit-il d’une bande de confiance, ou d’une bande de prédiction ? Quelle est la différence ?</p></li>
 <li><p>Ajoutez une bande de prédiction à l’aide du code (à compléter) suivant. Interprétez.</p></li>
@@ -3345,27 +3348,35 @@ window.Quarto = {
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_grid, <span class="fu">aes</span>(<span class="at">y =</span> fit, <span class="at">ymin =</span> lwr, <span class="at">ymax =</span> upr), <span class="at">alpha =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ol start="7" type="1">
+<ol start="8" type="1">
 <li>Que vaut la statistique de Fisher pour ce model ? Montrez que dans ce cas, elle peut être vue comme la statistique de Student d’un des coefficients mise au carré. Interprettez.</li>
 </ol>
 </section>
 <section id="régression-multiple" class="level2">
 <h2 class="anchored" data-anchor-id="régression-multiple">Régression multiple</h2>
-<ol start="8" type="1">
-<li><p>Faire la regression de <code>medv</code> contre toutes les autres variables du jeu de données. On pourra utiliser la formule <code>medv ~ .</code>, qui est un raccourci pour éviter d’avoir à écrire toutes les variables à la main. Interprettez les résultats en utilisant la fonction <code>summary</code>.</p></li>
-<li><p>En utilisant la formula <code>medv ~ . -age - indus</code>, faites la régression de <code>medv</code> contre toutes les variables, sauf <code>age</code> et <code>indus</code>. Interprettez. Quel modèle préférez-vous ?</p></li>
-<li><p>Faites le test de Fisher emboîté entre les deux modèles à l’aide de la fonction <code>anova</code>. Interprettez. Est-ce cohérent avec les résultats de la question précédente ?</p></li>
-<li><p>Appliquez la procédure “backward” pour la sélection de variable, en utilisant l’AIC, et les fonctions <code>dropterm</code> de la librairie <code>MASS</code>. Quelle conclusion obtenez vous ?</p></li>
-<li><p>Faites la régression linéaire de <code>medv</code> contre les seules variables <code>age</code> et <code>indus</code>. Interprettez le résultat.</p></li>
+<ol start="9" type="1">
+<li><p>Faire la régression de <code>medv</code> contre toutes les autres variables du jeu de données. On pourra utiliser la formule <code>medv ~ .</code>, qui est un raccourci pour éviter d’avoir à écrire toutes les variables à la main. Interprétez les résultats en utilisant la fonction <code>summary</code>.</p></li>
+<li><p>En utilisant la formula <code>medv ~ . -age - indus</code>, faites la régression de <code>medv</code> contre toutes les variables, sauf <code>age</code> et <code>indus</code>. Interprétez. Quel modèle préférez-vous ?</p></li>
+<li><p>Faites le test de Fisher emboîté entre les deux modèles à l’aide de la fonction <code>anova</code>. Interprétez. Est-ce cohérent avec les résultats de la question précédente ?</p></li>
+<li><p>Appliquez la procédure “backward” pour la sélection de variable, en utilisant l’AIC, et la fonction <code>dropterm</code> de la librairie <code>MASS</code>. Quelle conclusion obtenez vous ?</p></li>
+<li><p>Faites la régression linéaire de <code>medv</code> contre les seules variables <code>age</code> et <code>indus</code>. Interprétez le résultat.</p></li>
 </ol>
 </section>
 <section id="transformation-de-données" class="level2">
 <h2 class="anchored" data-anchor-id="transformation-de-données">Transformation de données</h2>
-<ol start="13" type="1">
-<li><p>Faites la régression de <code>medv</code> contre <code>lstat</code> et <code>log(lstat)</code> à l’aide de la formule <code>medv ~ lstat + log(lstat)</code>. Interprettez.</p></li>
-<li><p>Faites la régression de <code>medv</code> contre <code>lstat</code>, <code>lstat^2</code> à l’aide de la formule <code>medv ~ lstat + I(lstat^2)</code>. (Note : la fonction <code>I()</code> est utile ici pour protéger la fonction carrée, l’opérateur <code>^</code> ayant une autre signification dans le cadre d’une formule.) Interprettez.</p></li>
-<li><p>Faites la régression de <code>medv</code> contre <code>lstat</code>, <code>lstat^2</code>, <code>lstat^3</code>, …, <code>lstat^10</code> à l’aide de la formule <code>medv ~ poly(lstat, 10)</code>. Interprettez. Remarque : la fonction <code>poly</code> retourne les polynomes orthogonalisés, et non les puissances simples, comme détaillé dans l’aide <code>?poly</code>.</p></li>
+<ol start="14" type="1">
+<li><p>Faites la régression de <code>medv</code> contre <code>lstat</code> et <code>log(lstat)</code> à l’aide de la formule <code>medv ~ lstat + log(lstat)</code>. Interprétez.</p></li>
+<li><p>Faites la régression de <code>medv</code> contre <code>lstat</code>, <code>lstat^2</code> à l’aide de la formule <code>medv ~ lstat + I(lstat^2)</code>. Interprétez.</p></li>
 </ol>
+<blockquote class="blockquote">
+<p>Note : la fonction <code>I()</code> est utile ici pour protéger la fonction carrée, l’opérateur <code>^</code> ayant une autre signification dans le cadre d’une formule.</p>
+</blockquote>
+<ol start="16" type="1">
+<li>Faites la régression de <code>medv</code> contre <code>lstat</code>, <code>lstat^2</code>, <code>lstat^3</code>, …, <code>lstat^10</code> à l’aide de la formule <code>medv ~ poly(lstat, 10)</code>. Interprétez.</li>
+</ol>
+<blockquote class="blockquote">
+<p>Remarque : la fonction <code>poly</code> retourne les polynomes orthogonalisés, et non les puissances simples, comme détaillé dans l’aide <code>?poly</code>.</p>
+</blockquote>
 </section>
 
 </main>

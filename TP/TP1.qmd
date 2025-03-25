@@ -15,7 +15,7 @@ et du code (ici, du `R`).
 Nous utilisons ici `Rstudio`, un tutoriel de présentation est disponible
 [ici](https://quarto.org/docs/get-started/hello/rstudio.html).
 Vous pouvez utiliser un autre IDE en fonction de votre préférence, 
-à vos risques et périls.
+mais ce TP part du principe que vous utilisez `Rstudio`.
 
 Vous pouvez partir de ce document pour créer votre rapport,
 ou bien en créer un nouveau depuis `Rstudio`:
@@ -44,6 +44,11 @@ library(ISLR2)
 head(Boston)
 ```
 
+> Note: le jeu de données `Boston` est présent dans les deux libraries
+> `MASS` et `ISLR2`, légèrement modifié dans la seconde.
+> On prendra garde à bien charger les libraries dans cet ordre
+> (`MASS` d'abord, puis `ISLR2`) pour travailler sur la bonne version des données.
+
 Une description du jeu de données peut être obtenue dans l'aide,
 en tapant dans la console :
 ```{r}
@@ -54,7 +59,7 @@ en tapant dans la console :
 1. Décrire brièvement le jeu de données.
 Qu'est-ce qu'un "individu" $i$ dans ces données ?
 Combien y en a t il ?
-Combien y-a-t-il de variables ?
+Combien y a t il de variables ?
 Décrivez brièvement ces variables, en précisant leur type (discret ou continu).
 
 ## Régression simple
@@ -72,13 +77,13 @@ ggplot(Boston, aes(x = lstat, y = medv)) +
   geom_point()
 ```
 
-2. Faire la régression linéaire simple de `medv` en fonction de `lstat`
+3. Faire la régression linéaire simple de `medv` en fonction de `lstat`
 à l'aide de la fonction `lm`.
 Interprétez les coefficients. Sont-ils significativement non nuls ?
 Donnez un intervalle de confiance à $90%$ des coefficients.
 On pourra utiliser les fonctions `summary`, `coef` et `confint`.
 
-3. Tracez la droite de régression sur le nuage de points
+4. Tracez la droite de régression sur le nuage de points
 en utilisant le code suivant.
 Que pensez-vous de l'ajustement du modèle ?
 Est-ce cohérent avec le résultat de l'ajustement linéaire ?
@@ -89,16 +94,16 @@ ggplot(Boston, aes(x = lstat, y = medv)) +
   geom_smooth(method = "lm")
 ```
 
-4. Donnez un intervalle de prédiction à $95%$ pour la valeur de `medv`
+5. Donnez un intervalle de prédiction à $95%$ pour la valeur de `medv`
 lorsque `lstat` vaut $2$, $15$, $30$ et $50$ pourcent à l'aide de la fonction `predict`.
 Quand est-ce que l'intervalle est le plus grand ? Est-ce surprenant ?
 Discutez de la validité des prédictions, en particulier pour `lstat=50`.
 
-5. Par défaut, `ggplot` dans le code de la fonction ci-dessus trace une zone d'incertitude en grisé.
+6. Par défaut, `ggplot` dans le code de la fonction ci-dessus trace une zone d'incertitude en grisé.
 S'agit-il d'une bande de confiance, ou d'une bande de prédiction ?
 Quelle est la différence ?
 
-6. Ajoutez une bande de prédiction à l'aide du code (à compléter) suivant. Interprétez.
+7. Ajoutez une bande de prédiction à l'aide du code (à compléter) suivant. Interprétez.
 ```{r}
 #| eval: false
 data_pred <- data.frame(lstat = seq(min(Boston$lstat), max(Boston$lstat), by = 0.1))
@@ -111,48 +116,50 @@ ggplot(Boston, aes(x = lstat, y = medv)) +
   geom_ribbon(data = pred_grid, aes(y = fit, ymin = lwr, ymax = upr), alpha = 0.1)
 ```
 
-7. Que vaut la statistique de Fisher pour ce model ? 
+8. Que vaut la statistique de Fisher pour ce model ? 
 Montrez que dans ce cas, elle peut être vue comme la statistique de Student 
 d'un des coefficients mise au carré. Interprettez.
 
 ## Régression multiple
 
-8. Faire la regression de `medv` contre toutes les autres variables du jeu de données.
+9. Faire la régression de `medv` contre toutes les autres variables du jeu de données.
 On pourra utiliser la formule `medv ~ .`, qui est un raccourci
 pour éviter d'avoir à écrire toutes les variables à la main.
-Interprettez les résultats en utilisant la fonction `summary`.
+Interprétez les résultats en utilisant la fonction `summary`.
 
-9. En utilisant la formula `medv ~ . -age - indus`,
+10. En utilisant la formula `medv ~ . -age - indus`,
 faites la régression de `medv` contre toutes les variables, sauf `age` et `indus`.
-Interprettez.
+Interprétez.
 Quel modèle préférez-vous ?
 
-10. Faites le test de Fisher emboîté entre les deux modèles à l'aide de la fonction `anova`.
-Interprettez. Est-ce cohérent avec les résultats de la question précédente ?
+11. Faites le test de Fisher emboîté entre les deux modèles à l'aide de la fonction `anova`.
+Interprétez. Est-ce cohérent avec les résultats de la question précédente ?
 
-11. Appliquez la procédure "backward" pour la sélection de variable,
-en utilisant l'AIC, et les fonctions `dropterm` de la librairie `MASS`.
+12. Appliquez la procédure "backward" pour la sélection de variable,
+en utilisant l'AIC, et la fonction `dropterm` de la librairie `MASS`.
 Quelle conclusion obtenez vous ?
 
-12. Faites la régression linéaire de `medv` contre les seules variables `age` et `indus`.
-Interprettez le résultat.
+13. Faites la régression linéaire de `medv` contre les seules variables `age` et `indus`.
+Interprétez le résultat.
 
 ## Transformation de données
 
-13. Faites la régression de `medv` contre `lstat` et `log(lstat)`
+14. Faites la régression de `medv` contre `lstat` et `log(lstat)`
 à l'aide de la formule `medv ~ lstat + log(lstat)`.
-Interprettez.
+Interprétez.
 
-14. Faites la régression de `medv` contre `lstat`, `lstat^2`
+15. Faites la régression de `medv` contre `lstat`, `lstat^2`
 à l'aide de la formule `medv ~ lstat + I(lstat^2)`.
-(Note : la fonction `I()` est utile ici pour protéger la fonction carrée,
-l'opérateur `^` ayant une autre signification dans le cadre d'une formule.)
-Interprettez.
+Interprétez.
 
-15. Faites la régression de `medv` contre `lstat`, `lstat^2`, `lstat^3`, ..., `lstat^10`
+> Note : la fonction `I()` est utile ici pour protéger la fonction carrée,
+> l'opérateur `^` ayant une autre signification dans le cadre d'une formule.
+
+16. Faites la régression de `medv` contre `lstat`, `lstat^2`, `lstat^3`, ..., `lstat^10`
 à l'aide de la formule `medv ~ poly(lstat, 10)`.
-Interprettez.
-Remarque : la fonction `poly` retourne les polynomes orthogonalisés, et non
-les puissances simples, comme détaillé dans l'aide `?poly`.
+Interprétez.
+
+> Remarque : la fonction `poly` retourne les polynomes orthogonalisés, et non
+> les puissances simples, comme détaillé dans l'aide `?poly`.
 
 
