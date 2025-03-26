@@ -21,6 +21,7 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 * [CM4: Régression multiple - Gaussien](CM/CM4_Regression_Multiple_Gauss.html)
 * [CM5: Tests et sélection de modèle](CM/CM5_Tests_Model_Choice.html)
 * [CM6: Sélection de variables](CM/CM6_Variable_Selection.html)
+* [CM7: Validation de modèle](CM/CM7_validation.html)
 
 ## TDs
 
