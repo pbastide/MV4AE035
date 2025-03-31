@@ -1,0 +1,432 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass{../headers/td_upc}
+\input{../headers/header_td.tex}
+
+\def\version{eno}
+%\def\version{cor}
+
+\usepackage{hyperref}
+\ue{MT6BM020}
+
+\providecommand{\T}{\mathbb{T}}
+\providecommand{\1}{\mathds{1}}
+\title{TD 3 : Sélection de modèle}
+
+
+\newcommand{\miniscule}{\@setfontsize\miniscule{5}{6}}
+%-----------------------------------------------------------------------------
+\begin{document}
+	\maketitle
+	
+	\exo{Fisher global}
+	\begin{enumerate}
+		\item Rappeler la définition des lois du chi-deux, de Student, et de Fisher.
+		\item On se place dans le cadre d'une régression linéaire gaussienne multiple
+		$Y = X \beta + \varepsilon$.
+		Rappeler les expressions et les lois de $\hat \beta$ et $\hat{\sigma}^2$.
+		\item En déduire que la statistique de test de Fisher global
+		\[
+		F = \dfrac{1}{p \hat \sigma^2} \hat \beta^T (X^TX) \hat \beta
+		\]
+		suit sous $H_0$ une loi de Fisher de paramètre $p$, $n-p$.
+		\item Réécrire $F$ en fonction de $Y$ et $\hat Y$.
+		\item Que teste cette statistique ? Que peut-on en dire en pratique ?
+	\end{enumerate}
+
+
+	\exo{Fisher emboîté}
+	
+	\begin{enumerate}
+		\item Rappeler le test entre modèles emboîtés et donner la statistique de test $F$
+		en fonction de $Y$, $\hat Y$, et $\hat Y_0$.
+		Dans quel contexte retrouve-t-on l'expression de l'exercice 1 ?
+		\item Réécrire cette quantité en fonction de $SCR$ et $SCR_0$.
+		\item Montrer que
+		\[
+		F = \dfrac{n-p}{q} \dfrac{R^2 - R_0^2}{1-R^2}\,,
+		\]
+		où $R^2$ et $R_0^2$ sont les coefficients de détermination associés
+		respectivement au modèle complet et au modèle emboîté.
+		\cor{
+		On a :
+		\[
+		F = \dfrac{n-p}{q} \dfrac{SCR_0 - SCR}{SCR}
+		\]
+		et
+		\[
+		R^2 = 1 - \frac{SCR}{SCT} \quad \text{et} \quad R^2_0 = 1 - \frac{SCR_0}{SCT}
+		\]
+		i.e.
+		\[
+		SCR = SCT(1 - R^2) \quad \text{et} \quad SCR_0 = SCT(1 - R^2_0)
+		\]
+		donc:
+		\[
+		F = \dfrac{n-p}{q} \dfrac{SCT(1 - R^2_0) - SCT(1 - R^2)}{SCT(1 - R^2)}
+		= \dfrac{n-p}{q} \dfrac{R^2 - R^2_0}{1 - R^2}
+		\]
+		}
+	\end{enumerate}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exo{Tests de Student et de Fisher}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+On considère le modèle de régression linéaire classique à $n$ variables et $p$ prédicteurs:
+$$
+\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}.
+$$
+
+On souhaite montrer l'équivalence entre les tests de Student et de Fisher pour
+tester la nullité du dernier coefficient:
+$$
+\mathcal{H}_{0}: \beta_{p}=0 \qquad \text{contre} \qquad \mathcal{H}_{1}: \beta_{p} \neq 0.
+$$
+
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Soient $U \sim \mathcal{N}(0, 1)$ et $V \sim \chi^2_k$
+  deux variables aléatoires indépendantes (avec $k$ un entier strictement positif).
+  Quelle est la loi de $T = \frac{U}{\sqrt{V/k}}$ ?
+  Quelle est la loi de $F = T^{2}$ ?
+  
+  \cor{
+  Par définition, $T$ suit une loi de Student $\mathcal{T}_{k}$.
+  
+  De plus, $W = U^2 \sim \chi^2_1$ par définition.
+  Donc $F = T^2 = \frac{W/1}{V/k}$ suit une loi de Fisher $\mathcal{F}^{1}_{k}$.
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Rappelez les hypothèses classiques du modèle linéaire gaussien.
+  Quelles sont les dimensions de $\mathbf{y}$, $\mathbf{X}$, $\boldsymbol{\beta}$ et $\boldsymbol{\epsilon}$ ?
+  On se place sous ces hypothèses dans toute la suite.
+  
+  \cor{
+  Voir le cours.
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Rappelez la statistique $T_p$ du test de Student pour la nulité du coefficient $\beta_p$,
+  et sa loi sous l'hypothèse $\mathcal{H}_{0}$.
+  
+  \cor{
+  D'après le cours:
+  $$
+  T_p = \frac{\hat{\beta}_p}{\sqrt{\hat{\sigma}^2 [(\mathbf{X}^T\mathbf{X})^{-1}]_{pp}}},
+  $$
+  avec $\hat{\sigma}^2 = \frac{1}{n - p} \| \mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}} \|^2$.
+  Sous $\mathcal{H}_0$, $T_p$ suit une loi de Student à $n-p$ degrés de libertés.
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item On décompose $\mathbf{X}$ en blocs:
+  $$
+  \mathbf{X} = \left[\mathbf{X}_{0} \  \mathbf{X}_{p}\right]
+  \quad \text{avec} \quad
+  \mathbf{X}_{0} = \left[\mathbf{X}_{1}\ \cdots\ \mathbf{X}_{p-1}\right],
+  $$
+  où $\mathbf{X}_{0}$ est la matrice de taille $n \times(p-1)$
+  des $(p-1)$ premières colonnes de $\mathbf{X}$.
+  
+  Écrivez les deux modèles emboîtés qui correspondent au test 
+  de la nullité du coefficient $\beta_p$.
+  Donnez la statistique $F_p$ du test de Fisher correspondant, 
+  et sa loi sous $\mathcal{H}_{0}$.
+  
+  \cor{
+  On note
+  \begin{align*}
+  \text{Modèle 1}&: \mathbf{y} = \mathbf{X}_0 \boldsymbol{\beta}_0 + \boldsymbol{\epsilon}'\\
+  \text{Modèle 2}&: \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}\\
+  \end{align*}
+  La statistique de test s'écrit:
+  $$
+  F_p = \frac{
+  \|\hat{\mathbf{y}} -  \mathbf{X}_0\hat{\boldsymbol{\beta}}_0\|^2 / (p - (p - 1))
+  }{
+  \|\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}}\|^2 / (n - p)
+  }
+  = \frac{
+  \|\hat{\mathbf{y}} -  \mathbf{X}_0\hat{\boldsymbol{\beta}}_0\|^2
+  }{
+  \|\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}}\|^2 / (n - p)
+  }
+  $$
+  Sous $\mathcal{H}_0$, $F_p$ suit une loi de Fisher à $1$, $n-p$ degrés de libertés. 
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item En utilisant la décomposition $\mathbf{X} = \left[\mathbf{X}_{0} \  \mathbf{X}_{p}\right]$,
+  donnez la matrice $\mathbf{X}^T \mathbf{X}$ sous forme de 4 blocs.
+  
+  \cor{
+  $$
+  \mathbf{\mathbf{X}^T \mathbf{X}} = 
+  \begin{pmatrix}
+  \mathbf{\mathbf{X}_0^T \mathbf{X}_0} & \mathbf{\mathbf{X}_0^T \mathbf{X}_p}\\
+  \mathbf{\mathbf{X}_p^T \mathbf{X}_0} & \mathbf{\mathbf{X}_p^T \mathbf{X}_p}\\
+  \end{pmatrix}
+  $$
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item On admet le lemme d'inversion matricielle par blocs suivant:
+  
+  \textit{
+  Soit $\mathbf{M}$ une matrice par blocs,
+  $\mathbf{M} = 
+  \begin{pmatrix}
+  \mathbf{A} & \mathbf{B}\\
+  \mathbf{C} & \mathbf{D}\\
+  \end{pmatrix},$
+  avec $\mathbf{A}$, $\mathbf{B}$, $\mathbf{C}$, $\mathbf{D}$ de dimensions
+  respectives $q \times q$, $q \times r$, $r \times q$, et $r \times r$.
+  On suppose $\mathbf{M}$ et $\mathbf{A}$ inversibles.
+  Alors, on peut écrire $\mathbf{M}^{-1}$ sous la forme:
+  $$
+  \mathbf{M}^{-1} =
+  \begin{pmatrix}
+  \mathbf{E} & \mathbf{F}\\
+  \mathbf{G} & \mathbf{H}\\
+  \end{pmatrix},
+  \quad
+  \text{avec}
+  \quad
+  \mathbf{H}^{-1} = \mathbf{D} -  \mathbf{C}\mathbf{A}^{-1}\mathbf{B}.
+  $$
+  }
+  
+  Montrez la relation suivante :
+  $$
+  \frac{1}{[(\mathbf{X}^T\mathbf{X})^{-1}]_{pp}}
+  = \mathbf{X}^T_p\mathbf{X}_p
+  - \mathbf{X}^T_p\mathbf{X}_0 (\mathbf{X}^T_0\mathbf{X}_0)^{-1} \mathbf{X}^T_0\mathbf{X}_p
+  $$
+    \cor{
+  D'après le lemme d'inversion matricielle:
+  $$
+  [[(\mathbf{X}^T\mathbf{X})^{-1}]_{pp}]^{-1}
+  = \mathbf{X}^T_p\mathbf{X}_p
+  - (\mathbf{X}^T_p\mathbf{X}_0) (\mathbf{X}^T_0\mathbf{X}_0)^{-1} (\mathbf{X}^T_0\mathbf{X}_p).
+  $$
+  }
+  
+  \item   
+  On note $\mathbf{P}_{0}$ la matrice de projection orthogonale sur l'espace
+  $\mathcal{M}_{0}$ engendré par les $p - 1$ colonnes de $\mathbf{X}_{0}$,
+  et $\mathbf{P}$ la matrice de projection orthogonale sur $\mathcal{M}$
+  engendré par les $p$ colonnes de $\mathbf{X}$.
+  
+  Donnez les expressions de $\mathbf{P}_{0}$ et $\mathbf{P}$ en fonction de, 
+  respectivement, $\mathbf{X}_{0}$ et $\mathbf{X}$, puis
+  montrez la relation suivante :
+  $$
+  \frac{1}{[(\mathbf{X}^T\mathbf{X})^{-1}]_{pp}}
+  = \mathbf{X}_{p}^T \left(\mathbf{I}_{n} - \mathbf{P}_{0}\right) \mathbf{X}_{p}.
+  $$
+  \cor{
+  On a $\mathbf{P}_{0} = \mathbf{X}_0(\mathbf{X}^T_0\mathbf{X}_0)^{-1} \mathbf{X}^T_0$, d'où:
+  $$
+  \frac{1}{[(\mathbf{X}^T\mathbf{X})^{-1}]_{pp}}
+  = \mathbf{X}^T_p\mathbf{X}_p - \mathbf{X}^T_p \mathbf{P}_{0} \mathbf{X}_p
+  = \mathbf{X}^T_p (\mathbf{I}_n - \mathbf{P}_{0}) \mathbf{X}_p.
+  $$
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item On décompose $\hat{\boldsymbol{\beta}}$ en deux blocs:
+  $
+  \hat{\boldsymbol{\beta}} = 
+  \begin{pmatrix}
+  \hat{\boldsymbol{\beta}}_{0}\\
+  \hat{\beta}_p
+  \end{pmatrix}.
+  $
+  Montrez :
+  $
+  \mathbf{X}\hat{\boldsymbol{\beta}} 
+  = \mathbf{X}_0\hat{\boldsymbol{\beta}}_{0} + \mathbf{X}_p\hat{\beta}_p.
+  $
+  
+  \cor{
+  $$
+  \mathbf{X}\hat{\boldsymbol{\beta}} 
+  = (\mathbf{X}_0 \ \mathbf{X}_p)
+  \begin{pmatrix}
+  \hat{\boldsymbol{\beta}}_{0}\\
+  \hat{\beta}_p
+  \end{pmatrix}
+  = \mathbf{X}_0\hat{\boldsymbol{\beta}}_{0} + \mathbf{X}_p\hat{\beta}_p.
+  $$
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item On note $\hat{\mathbf{y}}$ et $\hat{\mathbf{y}}_0$ les projetés orthogonaux
+  de $\mathbf{y}$ sur $\mathcal{M}$ et $\mathcal{M}_0$.
+  Justifiez l'égalité:
+  $$
+  \hat{\mathbf{y}}_0 = \mathbf{P}_0\hat{\mathbf{y}}.
+  $$
+  En déduire:
+  $$
+  \hat{\mathbf{y}} - \hat{\mathbf{y}}_0 = (\mathbf{I}_n - \mathbf{P}_{0}) \mathbf{X}_p\hat{\beta}_p
+  $$
+  
+  \cor{
+  Du fait que les espaces vectoriels sont emboîtés:
+  $$
+  \hat{\mathbf{y}}_0 = \mathbf{P}_0\mathbf{y} = \mathbf{P}_0\mathbf{P} \mathbf{y} = \mathbf{P}_0\hat{\mathbf{y}}.
+  $$
+  D'où:
+  \begin{align*}
+  \hat{\mathbf{y}} - \hat{\mathbf{y}}_0
+  &= \hat{\mathbf{y}} - \mathbf{P}_0\hat{\mathbf{y}}
+  = (\mathbf{I}_n - \mathbf{P}_{0}) \hat{\mathbf{y}}
+  = (\mathbf{I}_n - \mathbf{P}_{0}) \mathbf{X}\hat{\boldsymbol{\beta}}\\
+  &= (\mathbf{I}_n - \mathbf{P}_{0}) (\mathbf{X}_0\hat{\boldsymbol{\beta}}_{0} + \mathbf{X}_p\hat{\beta}_p)
+  = (\mathbf{I}_n - \mathbf{P}_{0}) \mathbf{X}_p\hat{\beta}_p.
+  \end{align*}
+  }
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Montrez que $T_p^2 = F_p$. En déduire l'équivalence des deux tests.
+  
+  \cor{
+  \begin{align*}
+  T_p^2
+  & = \frac{\hat{\beta}_p^2}{\hat{\sigma}^2 [(\mathbf{X}^T\mathbf{X})^{-1}]_{pp}} 
+   = \frac{\mathbf{X}^T_p (\mathbf{I}_n - \mathbf{P}_{0}) \mathbf{X}_p \hat{\beta}_p^2}{\hat{\sigma}^2}\\
+  & = \frac{\|(\mathbf{I}_n - \mathbf{P}_{0}) \mathbf{X}_p \hat{\beta}_p\|^2}{\hat{\sigma}^2} 
+   = \frac{\|\hat{\mathbf{y}} - \hat{\mathbf{y}}_0\|^2}{\hat{\sigma}^2} \\
+  &= F_p
+  \end{align*}
+  
+  Les deux tests sont donc bien équivalents.
+  }
+\end{enumerate}
+
+% 6. En notant $\widehat{Y}$ et $\widehat{Y}_{0}$ les projetés orthogonaux de $Y$ sur $\mathcal{M}$ et $\mathcal{M}_{0}$, et après avoir justifié le fait que
+% $$
+% \hat{Y}_{0}=P_{0} Y=P_{0} P Y=P_{0} \hat{Y}
+% $$
+% montrer que
+% $$
+% \widehat{Y}-\widehat{Y}_{0}=\widehat{\beta}_{p}\left(I_{n}-P_{0}\right) \mathbf{X}_{p}
+% $$
+% 7. En déduire que $F=T^{2}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\exo{Estimation sous contrainte}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		Dans le modèle de régression linéaire,
+		il arrive parfois que l'on souhaite imposer des contraintes linéaires à $\beta$,
+		par exemple que sa première coordonnée soit égale à $1$.
+		Nous supposerons en général que nous imposons $q$ contraintes linéairement indépendantes à $\beta$,
+		ce qui s'écrit sous la forme : $R \beta=r$,
+		où $R$ est une matrice $q \times p$ de rang $q<p$ et $r$ un vecteur de taille $q$.
+		Montrer que l'estimateur des moindres carrés sous contraintes s'écrit:
+	\[
+	\hat \beta_c = \hat \beta + (X^T X)^{-1} R^T  \big[ R (X^T X)^{-1} R^T \big]^{-1} (r - R \hat \beta)\,.
+	\]
+	Montrez qu'il est sans biais, et que sa variance est égale à :
+	\[
+		\mathbf{V}[\hat\beta_c] = \mathbf{V}[\hat\beta] - \sigma^2 (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} R (X^T X)^{-1}.
+	\]
+	\cor{
+	On résaud le problème d'optimisation sous contrainte :
+	\[
+	\hat \beta_c = \text{argmin}_{\beta \in \R^p} \|Y - X \beta\|^2 \quad \text{sous contrainte de} \quad R \beta - r = 0_q
+	\]
+	On utilise la techinique du lagrangien, en introduisant le paramètre $\lambda \in \R^q$ :
+	\[
+	L(\beta, \lambda) 
+	= \|Y - X \beta\|^2 - \lambda^T (R \beta - r)
+	= Y^T Y - 2 \beta^T X^T Y  + \beta^T X^T X \beta - \lambda^T R \beta + \lambda^T r
+	\]
+	On cherche ensuite les points critiques du lagrangien :
+	\[
+	\begin{aligned}
+	\left\{
+	\begin{aligned}
+	\nabla_{\beta} L(\beta, \lambda) &= 0 \\
+	\nabla_{\lambda} L(\beta, \lambda) &= 0
+	\end{aligned}
+	\right.
+	& \iff
+	\left\{
+	\begin{aligned}
+	- 2 X^T Y + 2 X^T X \hat\beta_c - R^T \hat\lambda &= 0 & (*)\\
+	- R \hat\beta_c + r &= 0
+	\end{aligned}
+	\right.
+	\\
+	& \iff
+	\left\{
+	\begin{aligned}
+	R (X^T X)^{-1} (- 2 X^T Y + 2 X^T X \hat\beta_c - R^T \hat\lambda) &= 0 \\
+	R \hat\beta_c &= r
+	\end{aligned}
+	\right.
+	\\
+		& \iff
+	\left\{
+	\begin{aligned}
+	R (X^T X)^{-1} R^T \hat\lambda &= -2 R (X^T X)^{-1} X^T Y + 2 R \hat\beta_c \\
+	R \hat\beta_c &= r
+	\end{aligned}
+	\right.
+	\\
+			& \iff
+	\left\{
+	\begin{aligned}
+	\hat\lambda &= 2 (R (X^T X)^{-1} R^T)^{-1} (r - R (X^T X)^{-1} X^T Y) \\
+	R \hat\beta_c &= r
+	\end{aligned}
+	\right.
+	\\
+	\end{aligned}
+	\]
+	En ré-injectant $\hat\lambda$ dans $(*)$, on trouve :
+	\begin{align*}
+	 \hat\beta_c 
+	 & = (X^T X)^{-1} X^T Y + \frac{1}{2} (X^T X)^{-1} R^T \hat\lambda \\
+	 & = (X^T X)^{-1} X^T Y + (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} (r - R (X^T X)^{-1} X^T Y) \\
+	 & = \hat\beta + (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} (r - R \hat\beta)
+	\end{align*}
+	Puis :
+	\begin{align*}
+	\mathbf{E}[\hat\beta_c]
+	&= \mathbf{E}[\hat\beta + (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} (r - R \hat\beta)] \\
+	&= \beta + (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} (r - R \beta) \\
+	&= \beta
+	\end{align*}
+	Et:
+	\begin{align*}
+	\mathbf{V}[\hat\beta_c]
+	&= \mathbf{V}[\hat\beta + (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} (r - R \hat\beta)] \\
+	&= \mathbf{V}[\hat\beta - (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} R \hat\beta] \\
+	&= \mathbf{V}[(I_p - B) \hat\beta] & B = (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} R \\
+	&= (I_p - B) \mathbf{V}[\hat\beta] (I_p - B)^T \\
+	&= (I_p - B) \sigma^2 (X^T X)^{-1} (I_p - B)^T \\
+	&= \sigma^2 \left[(X^T X)^{-1} - B (X^T X)^{-1} -  (X^T X)^{-1} B^T + B (X^T X)^{-1} B^T  \right]\\
+	\end{align*}
+	Mais :
+	\begin{align*}
+	B (X^T X)^{-1} B^T
+	& = (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} R (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} R (X^T X)^{-1} \\
+	& = (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} R (X^T X)^{-1} \\
+	& = B (X^T X)^{-1}
+	\end{align*}
+	Donc :
+	\begin{align*}
+	\mathbf{V}[\hat\beta_c]
+	&= \sigma^2 \left[(X^T X)^{-1} - (X^T X)^{-1} B^T \right]\\
+	&= \mathbf{V}[\hat\beta] - \sigma^2 (X^T X)^{-1} R^T (R (X^T X)^{-1} R^T)^{-1} R (X^T X)^{-1}.
+	\end{align*}
+	}
+	
+	
+\end{document}
+
+
