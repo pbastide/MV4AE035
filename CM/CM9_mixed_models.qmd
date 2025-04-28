@@ -1,0 +1,689 @@
+---
+title: 'Introduction aux Modèles Mixtes'
+author: "Paul Bastide"
+date: "2025-04-30"
+format:
+  revealjs: 
+    theme: simple
+    fig-width: 7
+    fig-height: 4
+smaller: true
+editor_options: 
+  chunk_output_type: console
+embed-resources: true
+self-contained-math: true
+---
+
+# From ANOVA to Mixed Models
+
+```{r setup, include = FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Sleep Study {.smaller}
+
+```{r, message = FALSE}
+library(lme4)
+kable(head(sleepstudy))
+```
+
+## Sleep Study {.smaller}
+
+```{r, message = FALSE, echo = FALSE}
+library(ggplot2)
+ggplot(sleepstudy, aes(x = Days, y = Reaction)) +
+  geom_point() +
+  facet_wrap(vars(Subject), nrow = 2) +
+  geom_smooth(method = lm, se = FALSE) + 
+  theme_minimal()
+```
+
+## ANCOVA
+
+For observation $i$ of group $k$:
+$$
+y_{i,k} = \mu + \alpha_k + (\beta + \gamma_k) \times x_{i}  + \epsilon_{i, k}
+$$
+
+* $\mu$ the intercept
+* $\alpha_k$ the specific effect of group $k$ on the intercept
+* $\gamma_k$ the specific effect of group $k$ on the slope
+* $\epsilon_{i, k} \sim \mathcal{N}(0, \sigma^2)$ iid noise.
+
+**Problem**:
+What if there are many groups, with few observations?  
+$\to$ Estimation problem.
+
+## ANCOVA {.smaller}
+
+```{r}
+fit_ancova <- lm(Reaction ~ Days * Subject, data = sleepstudy)
+summary(fit_ancova)
+```
+
+## Mixed Model
+
+For observation $i$ of group $k$:
+$$
+y_{i,k} = \mu + A_{k} + (\beta + G_k) \times x_{i}  + \epsilon_i
+$$
+
+* $\mu$ the intercept
+* $A_k \sim \mathcal{N}(0, s_A^2)$ iid effect of group $k$ on the intercept
+* $G_k \sim \mathcal{N}(0, s_G^2)$ iid effect of group $k$ on the slope
+* $\epsilon_{ik} \sim \mathcal{N}(0, \sigma^2)$ iid noise.
+
+$\to$ Replace **fixed effects** with **random effects**.
+
+$\to$ **Idea**: works when there are many groups in a factor.
+
+# Mixed Models
+
+## Mixed Model - Simple Case
+
+For observation $i$ of group $k$:
+$$
+y_{i,k} = \mu + A_{k}  + \epsilon_i
+$$
+
+* $A_k \sim \mathcal{N}(0, s_A^2)$ iid
+* $\epsilon_{ik} \sim \mathcal{N}(0, \sigma^2)$ iid noise.
+
+$$
+\mathbb{E}[y_{i,k}] = \mu
+$$
+
+$$
+\mathbb{V}[y_{i,k}] = s_A^2 + \sigma^2
+$$
+
+$$
+\mathbb{C}[y_{i,k}, y_{i',k'}] =
+\begin{cases}
+s_A^2 & \text{if } k = k' \\
+0 & \text{otherwise.}
+\end{cases}
+$$
+
+## Mixed Model - Simple Case
+
+**ANOVA**
+$$
+y_{i,k} = \mu + \alpha_{k}  + \epsilon_{ik} 
+\quad \epsilon_{i,k} \sim \mathcal{N}(0, \sigma^2) ~ iid
+$$
+
+$$
+\mathcal{H}_0: \alpha_1 = \cdots = \alpha_K = 0
+$$
+
+**Mixed Model**
+$$
+y_{i,k} = \mu + A_{k}  + \epsilon_{ik}
+\quad A_k \sim \mathcal{N}(0, s_A^2) ~ iid
+\quad \epsilon_{i,k} \sim \mathcal{N}(0, \sigma^2) ~ iid
+$$
+
+$$
+\mathcal{H}_0: s_A^2 = 0
+$$
+**Different models** but **same question**:
+does the structure of the population in groups impact the mean of $y_{i,k}$ ?
+
+
+## Mixed Model - Simple Case {.smaller}
+
+$$
+y_{i,k} = \mu + A_{k}  + \epsilon_i
+$$
+
+$$
+\mathbf{y} = \mu\mathbf{1}_{nK} + \mathbf{Z}\mathbf{U}  + \boldsymbol{\epsilon}
+$$
+
+$$
+\mathbf{y} 
+= \text{vec}((y_{i,k})_{i, k})
+= \begin{pmatrix}
+y_{1,1}\\
+y_{2,1}\\
+\vdots\\
+y_{n, 1}\\
+y_{1, 2}\\
+\vdots\\
+y_{n, 2}\\
+\vdots\\
+y_{n, K}
+\end{pmatrix}
+\qquad
+\mathbf{Z}
+=
+\begin{pmatrix}
+1 & 0 & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots\\
+1 & 0 & \cdots & 0\\
+0 & 1 & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots\\
+0 & 1 & \cdots & 0\\
+0 & 0 & \cdots & 1\\
+\vdots & \vdots & \vdots & \vdots\\
+0 & 0 & \cdots & 1\\
+\end{pmatrix}
+\qquad
+\begin{aligned}
+\mathbf{U} &\sim \mathcal{N}(\mathbf{0}, s_A^2\mathbf{I}_{K}) \\
+\boldsymbol{\epsilon} &\sim \mathcal{N}(\mathbf{0}, \sigma^2\mathbf{I}_{nK})
+\end{aligned}
+$$
+
+
+## Mixed Model - Simple Case {.smaller}
+
+$$
+y_{i,k} = \mu + A_{k}  + \epsilon_i
+$$
+
+$$~$$
+
+$$
+\mathbf{y} = \mu\mathbf{1}_{nK} + \mathbf{E}
+\qquad 
+\mathbf{E} \sim \mathcal{N}(\mathbf{0}, \mathbf{\Sigma})
+$$
+
+$$~$$
+
+$$
+\mathbf{\Sigma}
+=
+\begin{pmatrix}
+\mathbf{R} & \mathbf{0} & \cdots & \mathbf{0}\\
+\mathbf{0} & \ddots & \ddots & \vdots\\
+\vdots & \ddots & \ddots & \mathbf{0}\\
+\mathbf{0} & \cdots & \mathbf{0} & \mathbf{R}\\
+\end{pmatrix}
+\qquad
+\mathbf{R}
+=
+\begin{pmatrix}
+\sigma^2 + s_A^2 & s_A^2 & \cdots & s_A^2\\
+s_A^2 & \ddots & \ddots & \vdots\\
+\vdots & \ddots & \ddots & s_A^2\\
+s_A^2 & \cdots & s_A^2 & \sigma^2 + s_A^2\\
+\end{pmatrix}
+$$
+
+## Mixed Model - General Case
+
+**Linear Model**
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)
+$$
+
+$$~$$
+
+**Mixed Model**
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta}, \mathbf{\Sigma})
+$$
+
+$$~$$
+with $\mathbf{\Sigma}$ structured covariance matrix.
+
+## Mixed Model - Sleep
+
+For observation $i$ of group $k$:
+$$
+y_{i,k} = \mu + A_{k} + (\beta + G_k) \times x_{i}  + \epsilon_i
+$$
+
+* $A_k \sim \mathcal{N}(0, s_A^2)$ iid effect of group $k$ on the intercept
+* $G_k \sim \mathcal{N}(0, s_G^2)$ iid effect of group $k$ on the slope
+* $\epsilon_{ik} \sim \mathcal{N}(0, \sigma^2)$ iid noise.
+
+$$
+\mathbb{E}[y_{i,k}] = \mu + \beta x_i
+$$
+
+$$
+\mathbb{V}[y_{i,k}] = s_A^2 + s_G^2x_i^2 + \sigma^2
+$$
+
+$$
+\mathbb{C}[y_{i,k}, y_{i',k'}] =
+\begin{cases}
+s_A^2 + s_G^2 x_i x_{i'}& \text{if } k = k' \\
+0 & \text{otherwise.}
+\end{cases}
+$$
+
+# Sleep dataset example
+
+## Mixed Model - Sleep {.smaller}
+
+$$
+y_{i,k} = \mu + A_{k} + (\beta + G_k) \times x_{i}  + \epsilon_i
+$$
+
+$$
+\mathbf{y} = \mu\mathbf{1}_{nK} + \beta \mathbf{x}
++ \mathbf{Z}_1\mathbf{U}_1 
++ \mathbf{Z}_2\mathbf{U}_2  + \boldsymbol{\epsilon}
+$$
+
+$$
+\mathbf{y} 
+= \begin{pmatrix}
+y_{1,1}\\
+y_{2,1}\\
+\vdots\\
+y_{n, 1}\\
+y_{1, 2}\\
+\vdots\\
+y_{n, 2}\\
+\vdots\\
+y_{n, K}
+\end{pmatrix}
+\qquad
+\mathbf{Z}_2
+=
+\begin{pmatrix}
+x_1 & 0 & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots\\
+x_n & 0 & \cdots & 0\\
+0 & x_1 & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots\\
+0 & x_n & \cdots & 0\\
+0 & 0 & \cdots & x_1\\
+\vdots & \vdots & \vdots & \vdots\\
+0 & 0 & \cdots & x_n\\
+\end{pmatrix}
+\qquad
+\begin{aligned}
+\mathbf{U}_1 &\sim \mathcal{N}(\mathbf{0}, s_A^2\mathbf{I}_{K}) \\
+\mathbf{U}_2 &\sim \mathcal{N}(\mathbf{0}, s_G^2\mathbf{I}_{K}) \\
+\boldsymbol{\epsilon} &\sim \mathcal{N}(\mathbf{0}, \sigma^2\mathbf{I}_{nK})
+\end{aligned}
+$$
+
+
+## Mixed Model - Sleep {.smaller}
+
+$$
+y_{i,k} = \mu + A_{k} + (\beta + G_k) \times x_{i}  + \epsilon_i
+$$
+
+$$
+\mathbf{y} = \mu\mathbf{1}_{nK} + \beta \mathbf{x}
++ \mathbf{Z}_1\mathbf{U}_1 
++ \mathbf{Z}_2\mathbf{U}_2  + \boldsymbol{\epsilon}
+$$
+
+$$
+\mathbf{y} = \mu\mathbf{1}_{nK} + \beta\mathbf{x} + \mathbf{E}
+\qquad 
+\mathbf{E} \sim \mathcal{N}(\mathbf{0}, \mathbf{\Sigma})
+$$
+
+$$
+\mathbf{\Sigma}
+=
+\sigma^2 \mathbf{I} 
++ s_A^2 \mathbf{Z}_1^T \mathbf{Z}_1
++ s_G^2 \mathbf{Z}_2^T \mathbf{Z}_2
+=
+\begin{pmatrix}
+\mathbf{R} & \mathbf{0} & \cdots & \mathbf{0}\\
+\mathbf{0} & \ddots & \ddots & \vdots\\
+\vdots & \ddots & \ddots & \mathbf{0}\\
+\mathbf{0} & \cdots & \mathbf{0} & \mathbf{R}\\
+\end{pmatrix}
+$$
+
+$$
+\mathbf{R}
+=
+\begin{pmatrix}
+\sigma^2 + s_A^2 + s_G^2 x_1^2 & s_A^2 + s_G^2 x_2x_1 & \cdots & s_A^2 + s_G^2 x_nx_1\\
+s_A^2 + s_G^2 x_1x_2 & \ddots & \ddots & \vdots\\
+\vdots & \ddots & \ddots & s_A^2 + s_G^2 x_{n-1}x_n\\
+s_A^2 + s_G^2 x_1x_n & \cdots & s_A^2 + s_G^2 x_nx_{n-1} & \sigma^2 + s_A^2 + s_G^2 x_nx_n\\
+\end{pmatrix}
+$$
+
+
+## Sleep {.smaller}
+
+```{r}
+fit_lmer <- lmer(Reaction ~ Days + (Days | Subject), data = sleepstudy)
+fit_lmer
+```
+
+# Examples of Mixed Models
+
+## Mixed Model - General Case
+
+**Linear Model**
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)
+$$
+
+$$~$$
+
+**Mixed Model**
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta}, \mathbf{\Sigma})
+$$
+
+$$~$$
+with $\mathbf{\Sigma}$ structured covariance matrix.
+
+$$~$$
+$\to$ General fit and tests more difficult
+
+## Mixed Model - Longitudinal
+
+**Repeated Measures**
+$$
+y_{ikt} = \mu + \alpha_k + \beta_t + \gamma_{kt} + \epsilon_{ikt}
+$$
+
+* Animal $i$
+* Food $k$
+* Time $t$
+
+$$
+\mathbb{C}[y_{i,k,t}, y_{i',k',t'}] =
+\begin{cases}
+\sigma^2 \rho & \text{if } (i,k) = (i',k') \\
+0 & \text{otherwise.}
+\end{cases}
+$$
+$$~$$
+$\to$ Constant covariance between time measures.
+
+## Mixed Model - Longitudinal
+
+**Repeated Measures**
+$$
+y_{ikt} = \mu + \alpha_k + \beta_t + \gamma_{kt} + \epsilon_{ikt}
+$$
+
+* Animal $i$
+* Food $k$
+* Time $t$
+
+$$
+\mathbb{C}[y_{i,k,t}, y_{i',k',t'}] =
+\begin{cases}
+\sigma^2 \rho^{|t-t'|} & \text{if } (i,k) = (i',k') \\
+0 & \text{otherwise.}
+\end{cases}
+$$
+$$~$$
+$\to$ AR(1) (with $|\rho| < 1$)
+
+## Mixed Model - Spatial
+
+**Spatial Measures**
+$$
+\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+$$
+
+$$
+\mathbb{C}[y_{i}, y_{i'}] =
+\begin{cases}
+\gamma^2 e^{-d(i,i')/\rho} & \text{if } i \neq i' \\
+\sigma^2 + \gamma^2 & \text{if } i = i'
+\end{cases}
+$$
+
+* $d(i,i')$: distance between locations $i$ and $i'$
+* $\rho$: range (larger implies more correlations)
+* $\gamma^2$ spatial variance
+* $\sigma^2$ nugget
+
+## Mixed Model - General Case
+
+**Mixed Model**
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta},
+\mathbf{\Sigma}(\boldsymbol{\psi}))
+$$
+with $\mathbf{\Sigma}(\psi)$ depends on paramaters $\boldsymbol{\psi}$
+
+## Mixed Model - Simple Case
+
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta},
+\mathbf{\Sigma})
+$$
+
+Special case:
+$$
+\mathbf{\Sigma} = \sigma^2 \mathbf{C}
+$$
+with $\mathbf{C}$ known.
+
+Then:
+$$
+\hat{\boldsymbol{\beta}} = 
+(\mathbf{X}^{T}\mathbf{C}^{-1}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{C}^{-1}\mathbf{y}
+$$
+
+$$
+\hat{\sigma}^2 = 
+\frac{\|\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}} \|^2_{\mathbf{C}^{-1}}}{n-p}
+=
+\frac{(\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}})^T \mathbf{C}^{-1}(\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}})}{n-p}
+$$
+
+*Proof*: Use Cholesky decomposition.
+
+## Mixed Model - Maximum Likelihood {.build}
+
+**Mixed Model**
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta},
+\mathbf{\Sigma}(\boldsymbol{\psi}))
+$$
+
+Maximum-Likelihood Estimators:
+$$
+\hat{\boldsymbol{\beta}}, \hat{\boldsymbol{\psi}}
+=
+\underset{\boldsymbol{\beta}, \boldsymbol{\psi}}{\operatorname{argmax}} 
+\log L(\boldsymbol{\beta}, \sigma^2 | \mathbf{y})
+$$
+
+$$
+\hat{\boldsymbol{\beta}}, \hat{\boldsymbol{\psi}}
+=
+\underset{\boldsymbol{\beta}, \boldsymbol{\psi}}{\operatorname{argmin}} 
+\left\{
+\log |\mathbf{\Sigma}(\boldsymbol{\psi})| + 
+(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T \mathbf{\Sigma}(\boldsymbol{\psi})^{-1}(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})
+\right\}
+$$
+
+$$
+S(\boldsymbol{\beta})
+=
+(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T \mathbf{\Sigma}(\boldsymbol{\psi})^{-1}(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})
+$$
+
+## Mixed Model - Maximum Likelihood {.build}
+
+$$
+S(\boldsymbol{\beta})
+=
+(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T \mathbf{\Sigma}(\boldsymbol{\psi})^{-1}(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})
+$$
+
+$$ 
+\nabla S(\hat{\boldsymbol{\beta}})
+= 2 \mathbf{X}^T\mathbf{\Sigma}(\boldsymbol{\psi})^{-1}\mathbf{X}\hat{\boldsymbol{\beta}}
+- 2 \mathbf{X}^T\mathbf{\Sigma}(\boldsymbol{\psi})^{-1}\mathbf{y}
+= 0
+$$
+
+$$ 
+\hat{\boldsymbol{\beta}}
+= h(\boldsymbol{\psi})
+= (\mathbf{X}^T\mathbf{\Sigma}(\boldsymbol{\psi})^{-1}\mathbf{X})^{-1} \mathbf{X}^T\mathbf{\Sigma}(\boldsymbol{\psi})^{-1}\mathbf{y}
+$$
+
+Maximisation:
+
+$$
+\hat{\boldsymbol{\psi}}
+=
+\underset{\boldsymbol{\psi}}{\operatorname{argmin}} 
+\left\{
+\log |\mathbf{\Sigma}(\boldsymbol{\psi})| + 
+(\mathbf{y} - \mathbf{X}h(\boldsymbol{\psi}))^T \mathbf{\Sigma}(\boldsymbol{\psi})^{-1}(\mathbf{y} - \mathbf{X}h(\boldsymbol{\psi}))
+\right\}
+$$
+
+$$
+\hat{\boldsymbol{\beta}}
+= h(\hat{\boldsymbol{\psi}})
+$$
+
+$\to$ Optimization in $\boldsymbol{\psi}$ can be complex.
+
+
+## Mixed Model - Restricted Likelihood {.build}
+
+**Linear Model**
+$$
+\hat{\sigma}^2_{ML} 
+= \frac{\|\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}} \|^2}{n}
+\qquad \text{vs} \qquad 
+\hat{\sigma}^2_{REML} 
+= \frac{\|\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}} \|^2}{n-p}
+$$
+$$
+\hat{\sigma}^2_{REML} 
+=
+\underset{\sigma^2}{\operatorname{argmax}} 
+\log L(0, \sigma^2 | \mathbf{P}^{\mathbf{X}^\bot}\mathbf{y})
+$$
+
+$$
+\mathbf{P}^{\mathbf{X}^\bot}\mathbf{y} = \hat{\boldsymbol{\epsilon}}
+\sim
+\mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{P}^{\mathbf{X}^\bot})
+$$
+
+$$
+\hat{\sigma}^2_{REML} 
+=
+\underset{\sigma^2}{\operatorname{argmax}} 
+\left\{
+\log |\sigma^2 \mathbf{P}^{\mathbf{X}^\bot}| + 
+(\mathbf{P}^{\mathbf{X}^\bot}\mathbf{y})^T (\sigma^2 \mathbf{P}^{\mathbf{X}^\bot})^{-1}(\mathbf{P}^{\mathbf{X}^\bot}\mathbf{y})
+\right\}
+$$
+
+$$
+\hat{\sigma}^2_{REML} 
+=
+\underset{\sigma^2}{\operatorname{argmax}} 
+\left\{
+(n-p) \log(\sigma^2) + \frac{1}{\sigma^2}
+\|\mathbf{P}^{\mathbf{X}^\bot}\mathbf{y}\|^2
+\right\}
+$$
+
+
+## Mixed Model - Restricted Likelihood {.build}
+
+**Mixed Model**
+$$
+\mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta},
+\mathbf{\Sigma}(\boldsymbol{\psi}))
+$$
+
+Let $\mathbf{T}$ a $(n-p)\times n$ such that $\mathbf{T}\mathbf{X}=\mathbf{0}$.
+$$
+\tilde{\mathbf{y}} = 
+\mathbf{T}\mathbf{y} 
+\sim 
+\mathcal{N}(\mathbf{0},
+\mathbf{T}^T\mathbf{\Sigma}(\boldsymbol{\psi})\mathbf{T})
+$$
+
+$$
+\hat{\boldsymbol{\psi}}_{REML}
+=
+\underset{\boldsymbol{\psi}}{\operatorname{argmax}} 
+\log L(\boldsymbol{\psi} | \tilde{\mathbf{y}})
+$$
+
+$\to$ Independent from $\boldsymbol{\beta}$.
+
+$\to$ Independent from the choice of $\mathbf{T}$.
+
+$\to$ Often, $\mathbf{T} = \mathbf{P}^{\mathbf{X}^\bot}$.
+
+
+# Perspectives
+
+## Hasty Summary
+
+$$
+\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+$$
+
+* $\mathbf{y}$ **quantitative** response
+* $\mathbf{X}$ matrix of predictors (quantitative or qualitative)
+* $\boldsymbol{\beta}$ deterministic coefficient
+* $\boldsymbol{\epsilon}$ random, centered, null covariance (Gaussian)
+
+## Hasty Summary
+
+* **Fit**
+   - OLS estimates of $\hat{\boldsymbol{\beta}}$ and $\hat{\sigma}^2$
+   - ML estimates and CI when Gaussian
+* **Model Selection**
+   - $t$ test the hypothesis "$\boldsymbol{\beta}_k = 0$" (when Gaussian)
+   - $F$ test of nested models (when Gaussian)
+   - Penalized criteria (AIC, BIC, Mallow's C_p, ...)
+* **Prediction**
+   - New points $\hat{y}_{i}$, with CI (when Gaussian)
+* **Diagnostics**
+   - Analysis of the residuals (outliers, Gaussian, ...)
+   - Analysis of the projection matrix (Leverage, Cook, ...)
+
+## Perspectives and key words
+
+* Model Selection
+    - hard to do when there are many predictors (see CM 5)  
+    $\to$ **regularized models** (lasso, ...), **Bayesian Statistics**
+
+* No independence assumption
+   - Observations are correlated (e.g. geography)  
+   $\to$ **linear mixed models**
+
+* $\mathbf{y}$ is qualitative: classification
+   - e.g. $\mathbf{y} = 0/1$ is the response to a treatment (dose, ...)  
+   $\to$ **logistic regression**
+
+* No normal assumption
+   - $\mathbf{y}$ qualitative, counts, positive, ...  
+   $\to$ **Generalized Linear Models** (GLM)
+
+## Ressources
+
+* [An Introduction to Statistical Learning](https://statlearning.com/)  
+G. James, D. Witten, T. Hastie and R. Tibshirani
+
+* [Le modèle linéaire et ses extensions](https://www6.inrae.fr/mia-paris/content/download/4281/40718/version/1/file/ModeleLineaireEt_Extensions.pdf)  
+L. Bel, JJ. Daudin, M. Etienne, E. Lebarbier, T. Mary-Huard, S. Robin, C. Vuillet
+
+* [The Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/)  
+T. Hastie, R. Tibshirani, J. Friedman
+
+

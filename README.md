@@ -23,6 +23,7 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 * [CM6: Sélection de variables](CM/CM6_Variable_Selection.html)
 * [CM7: Validation de modèle](CM/CM7_validation.html)
 * [CM8: ANOVA](CM/CM8_anova.html)
+* [CM9: Modèles Mixtes](CM/CM9_mixed_models.html)
 
 ## TDs
 
