@@ -1,0 +1,191 @@
+---
+title: "TP1 - Régression multiple"
+format: html
+author: "PB"
+embed-resources: true
+self-contained-math: true
+---
+
+## Données
+
+On utilise les données `penguins` qui sont présentes dans le package
+[`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/).
+Le package s'installe avec la commande :
+```{r}
+#| eval: false
+install.packages("palmerpenguins ")
+```
+
+On peut ensuite charger et voir les données : 
+
+```{r}
+library(palmerpenguins)
+head(penguins)
+```
+
+Pour simplifier, on omet ici toutes les observations qui comportent au moins
+une donnée manquante, avec la commande :
+
+
+```{r}
+penguins <- na.omit(penguins)
+```
+
+
+1. Décrire brièvement le jeu de données.
+Qu'est-ce qu'un "individu" `i` dans ces données ?
+Combien y en a t il ?
+Combien y a t il de variables ?
+Décrivez brièvement ces variables, en précisant leur type (discret ou continu).
+
+## Dimensions du bec : première régression
+
+2. Faites la régression du la largeur du bec (`y = bill_depth_mm`) contre la 
+longueur du bec (`x = bill_length_mm`) sur toutes les observations.
+Tracez les points et la droite de régression à l'aide de `ggplot2` et de la 
+fonction `geom_smooth`.
+Interprétez le résultat. L'estimation de la pente vous parait-il cohérent ? 
+
+3. Tracez les graphiques de diagnostics à l'aide de la fonction `plot`
+appliquée à l'objet résultant de de l'appel à `lm`, et
+interprétez ces graphiques. Vous pourrez consulter l'aide de la fonction :
+```{r}
+#| eval: false
+?plot.lm
+```
+
+4. Tracez les points et la droite de régression, en ajoutant cette fois 
+l'information de l'espèce en couleur (`aes(..., color = species)`).
+Que constatez vous ?
+
+## ANOVA à un facteur : impact de l'espèce
+
+On simplifie maintenant le jeu de données pour ne garder que les pingouins de 
+mâles, toutes espèces confondues. 
+```{r}
+#| eval: false
+males <- subset(penguins, sex == "male")
+```
+
+On se pose la question suivante :
+"Les individus mâles des trois espèces ont elles des masses différentes en moyenne ?"
+
+5. Tracez un boxplot de la variable `body_mass_g` pour les différentes espèces
+du jeu de données `males`. Qu'en déduisez-vous ?
+On pourra utiliser le squelette suivant pour le graphique :
+```{r}
+#| eval: false
+ggplot(males, aes(x = species, y = body_mass_g)) +
+  geom_boxplot()
+```
+
+6. Répondez à cette questions en utilisant un test de Student de comparaison
+de moyennes, avec hypothèse de variances égales, en utilisant
+la fonction `t.test(..., var.equal = TRUE)`.
+Combien de tests devez vous réaliser pour faire toutes les comparaisons deux à deux ?
+Quelles sont vos conclusions ?
+
+On cherche maintenant à répondre à cette question à l'aide d'une régression 
+linéaire :
+```{r}
+#| eval: false
+fitmass <- lm(body_mass_g ~ species, data = males)
+```
+
+7. Quelle matrice de régression est utilisée par défaut dans `R` ?
+A quoi correspondent les différents coefficients de la régression ?
+Comparez les résultats des tests de Student sur les coefficients de la régression
+avec les résultats des tests de Student d'égalité des moyennes obtenus ci-dessus.
+Interprétez.
+
+8. A quoi correspond le test de Fisher qui apparaît dans le résultat de la fonction
+`summary` ? Comment interprétez vous son résultat ?
+Comparez ce test avec le résultat de la table d'ANOVA obtenu par la commande :
+```{r}
+#| eval: false
+anova(fitmass)
+```
+
+## ANOVA à deux facteurs : impacts de l'espèce et du sexe
+
+On revient au jeu de données complet, avec toutes les espèces des deux sexes
+(sans les données manquantes).
+On cherche dans un premier temps à savoir si, lorsque les différences d'espèces
+sont prises en compte, les mâles et les femelles ont des poids en moyenne différents.
+On effectue la régression suivante :
+
+```{r}
+#| eval: false
+fitmass2 <- lm(body_mass_g ~ species + sex, data = penguins)
+```
+
+9. Interprétez les coefficients de cette régression.
+Que dire de la différence de masse entre les mâles et les femelles ?
+
+10. On construit une table d'ANOVA de type I grâce à la commande ci-dessous.
+Interprétez.
+```{r}
+#| eval: false
+anova(fitmass2)
+```
+
+11. On construit une table d'ANOVA de type II grâce à la commande ci-dessous.
+Quelles sont les différences avec la table de type I ?
+```{r}
+#| eval: false
+install.packages("car")
+car::Anova(fitmass2)
+```
+
+On cherche maintenant à savoir si le dimorphisme sexuel est différent pour 
+les différentes espèces. Pour cela, on ajoute un effet d'interaction grâce
+à la commande ci-dessous :
+
+```{r}
+#| eval: false
+fitmass3 <- lm(body_mass_g ~ species * sex, data = penguins)
+```
+
+12. Interprétez les différents coefficients de cette régression.
+Que pouvez-vous en conclure ?
+
+13. A l'aide d'une table d'ANOVA de type II, concluez sur la question posée :
+les différences entre sexes sont elles variables d'une espèce à l'autre ?
+
+## ANCOVA : dimensions du bec
+
+Sur le jeu de données complet, on se pose la même question
+qu'à la première section de la régression du la largeur du bec (`y = bill_depth_mm`) contre la 
+longueur du bec (`x = bill_length_mm`), cette fois en contrôlant pour 
+l'espèce.
+On effectue cette régression à l'aide de la commande suivante :
+```{r}
+#| eval: false
+fitbec <- lm(bill_depth_mm ~ bill_length_mm + species + sex, data = penguins)
+```
+
+14. Interprétez les résultats.
+A quoi correspondent les différents coefficients estimés ?
+Lorsque l'on prend en compte l'espèce et le sexe, 
+y-a-t-il un lien entre la largeur et la longueur du bec ?
+
+15. On cherche à tester un modèle où la pente de la régression est différente
+pour les mâles et les femelles, mais la même pour toutes les espèces.
+Justifiez que la régression avec interaction suivante permet bien de tester cette
+hypothèse.
+Quelle est votre conclusion ?
+```{r}
+#| eval: false
+fitbec2 <- lm(bill_depth_mm ~ bill_length_mm * sex + species, data = penguins)
+```
+
+## Longueur des ailes
+
+16. Utilisez les techniques décrites ci-dessus pour analyser la longueur des 
+ailes (`flipper_length_mm`).
+Est-ce que la longueur des ailes dépend de l'île où vivent les pingouins ?
+Cet effet est-il robuste lorsque l'on contrôle pour d'autres facteurs,
+comme l'espèce ou le sexe ?
+Est-ce qu'une tendance en fonction des années se dégage ?
+
+

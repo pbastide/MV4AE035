@@ -33,6 +33,7 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 ## TPs
 
 * [TP1: Régression multiple](TP/TP1.html)
+* [TP2: ANOVA](TP/TP2.html)
 
 ## Cheat Sheets
 
