@@ -1,5 +1,5 @@
 ---
-title: "TP1 - Régression multiple"
+title: "TP2 - ANOVA"
 format: html
 author: "PB"
 embed-resources: true
