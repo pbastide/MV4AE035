@@ -13,7 +13,7 @@ On utilise les données `penguins` qui sont présentes dans le package
 Le package s'installe avec la commande :
 ```{r}
 #| eval: false
-install.packages("palmerpenguins ")
+install.packages("palmerpenguins")
 ```
 
 On peut ensuite charger et voir les données : 
