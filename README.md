@@ -43,7 +43,9 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 ## Annales
 
 * Examen intermédiaire :
-  - CC 2025 : [énoncé](exams/2025_CC.pdf) et [corrigé](exams/2025_CC_cor.pdf).
+  - 2025 : [énoncé](exams/2025_CC.pdf) et [corrigé](exams/2025_CC_cor.pdf).
+* Examen final :
+  - 2025 : [énoncé](exams/2025_session1.pdf) et [corrigé](exams/2025_session1_cor.pdf).
 
 ## Evaluations
 
