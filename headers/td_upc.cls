@@ -20,7 +20,7 @@
 \RequirePackage{fancyhdr}
 \lhead{Universit\'{e} Paris Cit\'{e} - M1 IMB}
 \providecommand{\ue}[1]{\chead{#1}} 
-\rhead{Ann\'e{}e 2024-2025} 
+\rhead{Ann\'e{}e 2025-2026} 
 \pagestyle{fancy} 
 \setlength{\headheight}{15pt}
 

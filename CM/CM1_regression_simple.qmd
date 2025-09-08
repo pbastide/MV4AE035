@@ -1,7 +1,7 @@
 ---
 title: 'Régression simple - I'
 author: "Paul Bastide"
-date: "2025-01-21"
+date: "2025-09-16"
 format:
   revealjs: 
     theme: simple
@@ -43,13 +43,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Module
 
 * Séances
-  * CM : 17h30 (7 séances)
-  * TD : 7h30 (3 séances)
+  * CM : 15h00 (6 séances)
+  * TD : 10h00 (4 séances)
   * TP : 5h (2 séances)
   
 * Evaluation
-  * 1/3 examen intermédiare
-  * 1/6 TP noté
+  * 1/2 examen intermédiare
   * 1/2 examen final
 
 ## Ressources
@@ -63,11 +62,11 @@ G. James, D. Witten, T. Hastie and R. Tibshirani
 
 * [Moodle](https://moodle.u-paris.fr/course/view.php?id=6519)
 
-## GitHub MT6BM020
+## GitHub MV4AE035
 
-* https://pbastide.github.io/MT6BM020/
+* https://pbastide.github.io/MV4AE035/
 
-* Dépôt `git`: https://github.com/pbastide/MT6BM020
+* Dépôt `git`: https://github.com/pbastide/MV4AE035
 
 * Les diapos sont dans `CM`
   * en anglais

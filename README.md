@@ -1,7 +1,7 @@
-# MT6BM020 - Régression Linéaire
+# MV4AE035 - Régression Linéaire
 
-Page du cours [MT6BM020](https://moodle.u-paris.fr/course/view.php?id=6519),
-déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
+Page du cours [MV4AE035](https://moodle.u-paris.fr/course/view.php?id=6519),
+déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 
 ## Ressources
 
@@ -17,6 +17,8 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 
 * [CM1: Régression simple - MCO](CM/CM1_regression_simple.html)
 * [CM2: Régression simple - Gaussien](CM/CM2_regression_simple_gauss.html)
+
+<!---
 * [CM3: Régression multiple - MCO](CM/CM3_Regression_Multiple_OLS.html)
 * [CM4: Régression multiple - Gaussien](CM/CM4_Regression_Multiple_Gauss.html)
 * [CM5: Tests et sélection de modèle](CM/CM5_Tests_Model_Choice.html)
@@ -24,17 +26,23 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 * [CM7: Validation de modèle](CM/CM7_validation.html)
 * [CM8: ANOVA](CM/CM8_anova.html)
 * [CM9: Modèles Mixtes](CM/CM9_mixed_models.html)
+-->
 
 ## TDs
 
 * [TD1: Régression simple](TD/TD_1.pdf)
+
+<!---
 * [TD2: Régression multiple](TD/TD_2.pdf)
 * [TD3: Sélection de modèle](TD/TD_3.pdf)
+-->
 
 ## TPs
 
+<!---
 * [TP1: Régression multiple](TP/TP1.html)
 * [TP2: ANOVA](TP/TP2.html)
+-->
 
 ## Cheat Sheets
 
@@ -43,15 +51,13 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MT6BM020).
 ## Annales
 
 * Examen intermédiaire :
-  - 2025 : [énoncé](exams/2025_CC.pdf) et [corrigé](exams/2025_CC_cor.pdf).
+  - 2024-2025 : [énoncé](exams/2025_CC.pdf) et [corrigé](exams/2025_CC_cor.pdf).
 * Examen final :
-  - 2025 : [énoncé](exams/2025_session1.pdf) et [corrigé](exams/2025_session1_cor.pdf).
+  - 2024-2025 : [énoncé](exams/2025_session1.pdf) et [corrigé](exams/2025_session1_cor.pdf).
 
 ## Evaluations
 
-* 1/3 examen intermédiaire (EI)
-
-* 1/6 TP noté
+* 1/2 examen intermédiaire (EI
 
 * 1/2 examen final
 
