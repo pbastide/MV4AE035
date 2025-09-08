@@ -57,7 +57,7 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 
 ## Evaluations
 
-* 1/2 examen intermédiaire (EI
+* 1/2 examen intermédiaire (EI)
 
 * 1/2 examen final
 
