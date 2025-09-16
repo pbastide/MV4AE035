@@ -64,11 +64,11 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 ## Points bonus
 
 * Typos et erreurs dans les diapos et fiches
-  * k-ème PR accepté = $\frac{1}{2^{k}}$ points en plus sur la note du EI.
+  * k-ème PR accepté = 1 / 2<sup>k</sup> points en plus sur la note du EI.
   * Vaut aussi pour les fiches de vos collègues.
   
 * Fiches synthétiques
-  * k-ème fiche acceptée (PR) = $\frac{1}{2^{k-1}}$ points en plus sur la note du EI.
+  * k-ème fiche acceptée (PR) = 1 / 2<sup>k-1</sup> points en plus sur la note du EI.
   
 ## Contributions
 
