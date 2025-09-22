@@ -210,21 +210,38 @@
 	\cor{\newpage}
 	
 	\exo{}
-	Dans de nombreux cas, lorsque l'on étudie le lien entre $Y$ et $X$ nous savons que si $X=0$, alors $Y=0$. On peut alors simplifier le modèle linéaire en cherchant juste à ajuster les points sur une droite d'ordonnée à l'origine nulle. On étudie la régression linéaire $y_{i}=\beta x_{i}+\varepsilon_{i},$ où les $\varepsilon_{i}$ sont centrées, non corrélées et de même variance $\sigma^{2}$. On considère les deux estimateurs de $\beta$ suivants
-	\[
-	\hat{\beta}=\frac{\sum_{i=1}^{n} x_{i} y_{i}}{\sum_{i=1}^{n} x_{i}^{2}} \quad \text { et } \quad \tilde{\beta}=\frac{\sum_{i=1}^{n} y_{i}}{\sum_{i=1}^{n} x_{i}}
-	\]
+	Dans de nombreux cas, 
+	lorsque l'on étudie le lien entre $Y$ et $X$ nous savons que si $X=0$, alors $Y=0$. 
+	On peut alors simplifier le modèle linéaire en cherchant juste à ajuster 
+	les points sur une droite d'ordonnée à l'origine nulle. 
+	On étudie la régression linéaire 
+	$y_{i}=\beta x_{i}+\varepsilon_{i},$ où les $\varepsilon_{i}$ sont centrées,
+	non corrélées et de même variance $\sigma^{2}$. 
 	\begin{enumerate}
-		\item  Quelle est la logique de construction de ces deux estimateurs ?
-		\cor{
-		Pour le premier estimateur, on regarde l'estimateur des moindres carrés :
+	  \item Montrez que l'estimateur des moindres carrés s'écrit dans ce cas :
+	  \[
+	  \hat{\beta}=\frac{\sum_{i=1}^{n} x_{i} y_{i}}{\sum_{i=1}^{n} x_{i}^{2}}
+	  \]
+	  \cor{
+		L'estimateur des moindres carrés est par définition :
 		\[
 		\hat\beta = \mbox{argmin}_{\beta} \sum_{i=1}^n(y_i - \beta x_i)^2
 		\]
-		Pour le second, on regarde la droite qui passe par l'origine et par le point $(\bar{x}, \bar y)$ :
+		On trouve l'expression en dérivant la fonction à une seule variable.
+		}
+		\item Une autre manière de construire un estimateur est de trouver la droite
+		qui passe à la fois par l'origine et par le point de gravité $(\bar{x}, \bar y)$.
+		Montrez qu'alors l'estimateur de la pente s'écrit :
 		\[
+	  \tilde{\beta}=\frac{\sum_{i=1}^{n} y_{i}}{\sum_{i=1}^{n} x_{i}}
+	  \]
+		\cor{
+		La droite qui passe par l'origine et par le point $(\bar{x}, \bar y)$ est 
+		telle que
+		\(
 		\bar y = \tilde \beta \bar x
-		\]
+		\),
+		ce qui donne l'expression attendue.
 		}
 		\item   Montrer que $\hat{\beta}$ et $\tilde{\beta}$ sont des estimateurs non biaisés de $\beta$.
 		\cor{
@@ -255,7 +272,7 @@
 		et
 		\[
 		\mathbb{V}[\tilde\beta] 
-		= \frac{\sigma^2}{[\sum_{i=1}^{n} x_{i}]^{2}}
+		= n\frac{\sigma^2}{[\sum_{i=1}^{n} x_{i}]^{2}}
 		\]
 		Par l'inégalité de Cauchy-Schwarz :
 		\[
@@ -268,17 +285,28 @@
 		D'où l'inégalité des variances voulue.
 		Ceci est cohérent avec le théorème de Gauss-Markov.
 		}
+		\item Redémontrer le théorème de Gauss-Markov dans ce cas particulier.
+		\cor{
+		On utilise la même démarche que dans le cours, et on peut conclure par
+		l'inégalité de Cauchy-Schwarz :
+		\[
+		1 = \left(\sum_{i=1}^{n} q_i x_{i}\right)^2
+		\leq \left(\sum_{i=1}^{n} x_{i}^2\right) \left(\sum_{i=1}^{n} q_i^2\right).
+		\]
+		}
 	\end{enumerate}
 	
 	
 	\cor{\newpage}
 	
 	\exo{}
-	On suppose que le modèle de régression linéaire simple de $Y$ en fonction de $X$, avec des erreurs centrées et non corrélées, est valide :
+	On suppose que le modèle de régression linéaire simple de $Y$ en fonction de $X$, 
+	avec des erreurs centrées et non corrélées, est valide :
 	\[
 	Y=\beta_{0} + \beta_{1} X + \varepsilon\,.
 	\]
-	Montrer qu'alors il en est de même pour le modèle de régression linéaire de $X$ en fonction de $Y$. Quels sont les paramètres de ce modèle ?
+	Montrer qu'alors il en est de même pour le modèle de régression linéaire de $X$ en fonction de $Y$. 
+	Quels sont les paramètres de ce modèle ?
 	
 	\cor{
 	On obtient le modèle suivant :
@@ -300,7 +328,9 @@
 	\cor{\newpage}
 	
 	\exo{}
-	On considère un produit dont le coût de fabrication est $x_{0}$. Supposons que le nombre de produits vendus en une semaine, $y$ dépend du prix de vente $x$ selon un modèle linéaire simple.
+	On considère un produit dont le coût de fabrication est $x_{0}$. 
+	Supposons que le nombre de produits vendus en une semaine, 
+	$y$ dépend du prix de vente $x$ selon un modèle linéaire simple.
 	\begin{enumerate}
 		\item  Quel est le prix de vente maximisant la marge de l'entreprise ?
 		\cor{
@@ -322,7 +352,8 @@
 		\]
 		ce prix est bien positif, car $\beta_0 - \beta_1 x_0 > 0$.
 		}
-		\item  Sur les trois dernières semaines, un industriel a fait varier le prix du produit. On dispose des données suivantes.
+		\item  Sur les trois dernières semaines, un industriel a fait varier le prix du produit. 
+		On dispose des données suivantes.
 		\[
 		\begin{array}[]{cccc}
 			\hline
@@ -357,7 +388,10 @@
 	\cor{\newpage}
 	
 	\exo{\!\!\!\!*} 
-	Soit $y_{1}, \ldots, y_{n}$ des réels. Pour mesurer l'écart d'un réel $x$ à l'ensemble des $y_{i},$ on peut utiliser la distance $D(x)=\sum_{i=1}^{n} f\left(y_{i}-x\right)$ où $f$ est une fonction positive, paire, s'annulant en 0, continue et croissante sur les réels positifs.
+	Soit $y_{1}, \ldots, y_{n}$ des réels. Pour mesurer l'écart d'un réel $x$ 
+	à l'ensemble des $y_{i},$ on peut utiliser la distance 
+	$D(x)=\sum_{i=1}^{n} f\left(y_{i}-x\right)$ où $f$ est une fonction positive,
+	paire, s'annulant en 0, continue et croissante sur les réels positifs.
 	\begin{enumerate}
 		\item Montrer que le réel qui minimise cette distance lorsque $f(t)=t^{2}$ est la moyenne des $y_{i}$.
 		\cor{
@@ -369,9 +403,11 @@
 		\hat\beta_0 = \frac{1}{n}\sum_i y_i.
 		\]
 		}
-		\item On suppose maintenant que $f(t)=\abs{t}$. Montrer que le réel qui minimise la distance $D(x)$ est la médiane des $y_{i}$.
+		\item On suppose maintenant que $f(t)=\abs{t}$. 
+		Montrer que le réel qui minimise la distance $D(x)$ est la médiane des $y_{i}$.
 		
-		{\it Indication : considérer que $y_{1} \leq$ $\cdots \leq y_{n}$, réécrire $D(x)$ sur l'intervalle $[y_{j}, y_{j+1}[$, puis tracer $D(x)$.
+		{\it Indication : considérer que $y_{1} \leq$ $\cdots \leq y_{n}$, 
+		réécrire $D(x)$ sur l'intervalle $[y_{j}, y_{j+1}[$, puis tracer $D(x)$.
 		On traitera le cas où $n=2 p+1,$ puis le cas où $n=2 p$}.
 		
 		\cor{
@@ -419,11 +455,15 @@
 	\cor{\newpage}
 	
 	\exo{\!\!\!\!\!\!\!\!*}
-	Soit $y_{1}, \ldots, y_{n}$ et $x_{1}, \ldots, x_{n}$ des réels. Dans le modèle linéaire simple $y_{i}=\beta_{0}+\beta_{1} x_{i}+\varepsilon_{i}$, on considère la somme des erreurs en valeur absolue
+	Soit $y_{1}, \ldots, y_{n}$ et $x_{1}, \ldots, x_{n}$ des réels. 
+	Dans le modèle linéaire simple $y_{i}=\beta_{0}+\beta_{1} x_{i}+\varepsilon_{i}$, 
+	on considère la somme des erreurs en valeur absolue
 	\[
 	S\left(\beta_{1}, \beta_{2}\right)=\sum_{i=1}^{n}\abs{y_{i}-\beta_{0}-\beta_{1} x_{i}}\,.
 	\]
-	et on notera $\tilde{\beta}_{0}$ et $\tilde{\beta}_{1}$ les estimateurs des moindres valeurs absolues, \textit{i.e.} les valeurs de $\beta_{0}$ et $\beta_{1}$ minimisant la fonction $S(\cdot, \cdot)$. On cherche une stratégie pour obtenir $\tilde{\beta}_{0}$ et $\tilde{\beta}_{1}$.
+	et on notera $\tilde{\beta}_{0}$ et $\tilde{\beta}_{1}$ les estimateurs des moindres valeurs absolues, 
+	\textit{i.e.} les valeurs de $\beta_{0}$ et $\beta_{1}$ minimisant la fonction $S(\cdot, \cdot)$. 
+	On cherche une stratégie pour obtenir $\tilde{\beta}_{0}$ et $\tilde{\beta}_{1}$.
 	\begin{enumerate}
 		\item La valeur de $\beta_{1}$ étant fixée, quelle est la valeur de $\beta_{0}$ qui minimise la fonction 
 		$g\left(\beta_{0}\right)=\sum_{i=1}^{n}\left|y_{i}-\beta_{0}-\beta_{1} x_{i}\right|$ ?
@@ -467,7 +507,8 @@
 	\begin{enumerate}
 		\item  Exprimer la vraisemblance $L\left(\beta_{0}, \beta_{1}, \sigma^{2}\right)$ des observations.
 		\item  Quelles sont les valeurs de $\beta_{0}$ et $\beta_{1}$ maximisant cette vraisemblance ?
-		\item  Quelle est la valeur de $\sigma^{2}$ maximisant cette vraisemblance ? Que peut-on alors dire de l'estimateur du maximum de vraisemblance de $\sigma^{2}$ ?
+		\item  Quelle est la valeur de $\sigma^{2}$ maximisant cette vraisemblance ? 
+		Que peut-on alors dire de l'estimateur du maximum de vraisemblance de $\sigma^{2}$ ?
 	\end{enumerate}
 	
 	\cor{\newpage}
@@ -631,8 +672,7 @@
 	}
 	\end{enumerate}
 	
-	\cor{\newpage}
-	
+	\newpage
 	\exo{Intervalles de confiance vs région de confiance}
 	
 	On considère le modèle de régression linéaire simple $y=\beta_{0}+\beta_{1} x+\varepsilon$.
