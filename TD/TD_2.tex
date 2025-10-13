@@ -23,9 +23,11 @@
 	
 	\begin{enumerate}
 		\item Rappeler le principe d'une régression linéaire multiple. Préciser les hypothèses.
-		\item Faire un schéma pour donner une interprétation géométrique à la régression linéaire multiple.
+		\item Faire un schéma pour donner une interprétation géométrique à la régression linéaire multiple. Retrouvez l'expression de l'estimateur des moindres carrés $\hat \beta$.
 		\item Donner l'expression de la matrice de projection $\mathbf{P}^{\mathbf{X}}$ et de l'estimateur $\hat \beta$. Vérifier que $\mathbf{P}^{\mathbf{X}}$ est bien une matrice de projection.
 		\item Quelles sont les hypothèses supplémentaires dans le cas gaussien ?
+		\item Dans le cas Gaussien, retrouvez l'expression des estimateurs du maximum de vraisemblance pour $\beta$ et $\sigma^2$ en anulant le gradient de la fonction à maximiser.
+		\item Dans le cas Gaussien, retrouvez la loi de $\hat \beta$ et $\hat \sigma^2$, à variance connue ou inconnue.
 	\end{enumerate}
 	\textit{On conseille de toujours faire attention à la dimension des objets (matrices et vecteurs) qu'on manipule.}
 	
@@ -35,8 +37,8 @@
 		\item Rappeler les expressions de $\hat \beta_0$ et $\hat \beta_1$ dans le cas d'une régression simple.
 		\item Rappeler l'expression de $\hat \beta$ dans le cas d'une régression multiple.
 		\item Retrouver le résultat de la question 1 à partir de celui de la question 2.
-		\item Rappeler les expressions des variances et covariance de $\hat \beta_0$ et $\hat \beta_1$ dans le cas d'une régression simple.
-		\item Rappeler l'expression de la matrice de variance-covariance de $\hat \beta$ dans le cas d'une régression multiple.
+		\item Rappeler les expressions des variances et covariance de $\hat \beta_0$ et $\hat \beta_1$ pour une régression simple.
+		\item Rappeler l'expression de la matrice de variance-covariance de $\hat \beta$ pour une régression multiple.
 		\item Retrouver le résultat de la question 4 à partir de celui de la question 5.
 	\end{enumerate}
 
@@ -268,8 +270,8 @@
 			\end{enumerate}
 	\end{enumerate}
 
-\cor{\newpage}
-	
+% \cor{\newpage}
+	\newpage
 	\exo{Interprétation géométrique.}
 	\begin{enumerate}
 		\item Nous avons une variable $y$ à expliquer par une variable $x$. Nous avons effectué $n=2$ mesures et trouvé
@@ -531,6 +533,136 @@ Un modèle plus gros a toujours un $R^2$ plus grand.
 			\item Que vaut la matrice de variance-covariance de $Z$ ?
 			\item On peut alors écrire $Z=X \theta+\varepsilon$. Retrouver les estimateurs de $\theta_{1}$ et $\theta_{2}$ calculés question 1.
 		\end{enumerate}
+	\end{enumerate}
+	
+		\cor{\newpage}
+
+	\exo{Théorème de Gauss Markov}  L'objectif de cet exercice est de démontrer le 
+	théorème de Gauss-Markov. On se place dans le cadre du modèle de régression multivarié
+	classique (sans hypothèse gaussienne). Soit $\hat{\boldsymbol{\beta}}$ l'estimateur des moindres carrés
+	du vecteur de coefficient $\boldsymbol{\beta}$. 
+	\begin{enumerate}
+		\item Rappellez les hypothèses du modèle de régression multiple, ainsi que la définition 
+		de l'estimateur des moindres carrés, et donnez son expression.
+		\cor{
+		Voir le cour.
+		$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$.
+		}
+		\item Montrez que l'estimateur des moindres carrés $\hat \beta$ est linéaire et sans biais.
+		Retrouvez l'expression de sa matrice de variance-covariance.
+		\cor{
+		Voir le cours.
+		$\mathbb{E}[\hat{\boldsymbol{\beta}}] = \boldsymbol{\beta}$.
+		$\mathbb{V}[\hat{\boldsymbol{\beta}}] = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}$.
+		}
+		\item Soit $\tilde{\boldsymbol{\beta}}$ un autre estimateur linéaire sans biais de $\boldsymbol{\beta}$.
+		\begin{enumerate}
+			\item Montrez qu'il existe une matrice $\mathbf{B}$ déterministe telle que $\tilde{\boldsymbol{\beta}} = \mathbf{B}\mathbf{y}$.
+			Précisez les dimensions de $\mathbf{B}$.
+			\cor{
+			Par définition, $\tilde{\boldsymbol{\beta}}$ est un estimateur linéaire, donc
+			il existe $\mathbf{B}$ de taille $p \times n$ telle que
+			$\tilde{\boldsymbol{\beta}} = \mathbf{B}\mathbf{y}$.
+			}
+			\item Montrez que, pour tout vecteur $\boldsymbol{\beta}$ de coefficient,
+			$\mathbf{B} \mathbf{X} \boldsymbol{\beta} = \boldsymbol{\beta}$.
+			En déduire que $\mathbf{B} \mathbf{X} = \mathbf{I}_p$ où $\mathbf{I}_p$ 
+			est la matrice identité de taille $p$.
+			\cor{
+			$\tilde{\boldsymbol{\beta}}$ est un estimateur sans biais, donc,
+			pour tout $\boldsymbol{\beta}$,
+			$$
+			\boldsymbol{\beta}
+			= \mathbb{E}[\tilde{\boldsymbol{\beta}}] 
+			= \mathbb{E}[\mathbf{B}\mathbf{y}] 
+			= \mathbf{B}\mathbb{E}[\mathbf{y}] 
+			= \mathbf{B} \mathbf{X} \boldsymbol{\beta}.
+			$$
+			}
+		\end{enumerate}
+		\item Soient $\mathbf{S}_1$ et $\mathbf{S}_2$ deux matrices symétriques réelles
+		de taille $p \times p$.
+		On dit que $\mathbf{S}_1 \leq \mathbf{S}_2$ si la matrice 
+		$\mathbf{S}_2 - \mathbf{S}_1$ est une matrice symétrique positive,
+		i.e. si elle est symétrique, et, pour tout $\mathbf{u} \in \mathbb{R}^p$,
+		$\mathbf{u}^T (\mathbf{S}_2 - \mathbf{S}_1) \mathbf{u} \geq 0$.
+		On cherche à montrer que 
+		$\mathbb{V}[\hat{\boldsymbol{\beta}}] \leq \mathbb{V}[\tilde{\boldsymbol{\beta}}]$.
+		\begin{enumerate}
+			\item Montrez: 
+$
+\mathbb{V}[\tilde{\boldsymbol{\beta}}] - \mathbb{V}[\hat{\boldsymbol{\beta}}]
+= 
+\mathbb{V}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}]
++ \mathbb{C}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}] 
++ \mathbb{C}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]^T
+$.
+\cor{
+$$
+\begin{aligned}
+\mathbb{V}[\tilde{\boldsymbol{\beta}}]
+& = \mathbb{V}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}} + \hat{\boldsymbol{\beta}}]\\
+& = 
+\mathbb{V}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}]
++ \mathbb{V}[\hat{\boldsymbol{\beta}}]
++ \mathbb{C}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}] 
++ \mathbb{C}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]^T
+\end{aligned}
+$$
+}
+\item Montrez:
+$
+\mathbb{C}[\tilde{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]
+= \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}.
+$
+\cor{
+$$
+\begin{aligned}
+\mathbb{C}[\tilde{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]
+& = \mathbb{C}[\mathbf{B} \mathbf{y}; (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}]
+= \mathbf{B} \mathbb{C}[\mathbf{y}; \mathbf{y}] [(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T]^T\\
+& = \mathbf{B} [\sigma^2 \mathbf{I}_n] \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}
+= \sigma^2 \mathbf{B} \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}
+= \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}
+\end{aligned}
+$$
+}
+\item Montrez:
+$
+\mathbb{C}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}] = 0.
+$
+\cor{
+$$
+\begin{aligned}
+\mathbb{C}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}]
+& = \mathbb{C}[\tilde{\boldsymbol{\beta}}; \hat{\boldsymbol{\beta}}] - \mathbb{V}[\hat{\boldsymbol{\beta}}]\\
+& = \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1} - \sigma^2 (\mathbf{X}^T\mathbf{X})^{-1}
+= 0.
+\end{aligned}
+$$
+}
+\item En déduire que
+$
+\mathbb{V}[\tilde{\boldsymbol{\beta}}] - \mathbb{V}[\hat{\boldsymbol{\beta}}]
+$ est une matrice symétrique positive.
+\cor{
+D'après ce qui précède:
+$
+\mathbb{V}[\tilde{\boldsymbol{\beta}}] - \mathbb{V}[\hat{\boldsymbol{\beta}}]
+= 
+\mathbb{V}[\tilde{\boldsymbol{\beta}} - \hat{\boldsymbol{\beta}}].
+$
+$\mathbb{V}[\tilde{\boldsymbol{\beta}}] - \mathbb{V}[\hat{\boldsymbol{\beta}}]$ 
+est donc égale à une matrice de variance-covariance, et est donc une matrice 
+symétrique positive.
+}
+	\end{enumerate}
+	\item Conclure la démontration du théorème de Gauss-Markov.
+	\cor{
+	On a bien montré que $\hat{\boldsymbol{\beta}}$ était l'estimateur
+	linéaire sans biais qui avait la plus petite matrice de variance-covariance
+	au sens matriciel.
+	}
 	\end{enumerate}
 \end{document}
 
