@@ -1,0 +1,131 @@
+---
+title: "Fiche Synthèse "
+format: htlm
+---
+
+Objectif
+
+Cette fiche regroupe différentes formules et manipulations algébriques utiles pour les calculs en Travaux Dirigés (TD) et pour les démonstrations théoriques en régression linéaire simple et multiple, basées sur le cours et les TDs.
+
+Notations et Sommes Utiles
+
+Pour des échantillons $(x_1, ..., x_n)$ et $(y_1, ..., y_n)$:
+
+Moyennes empiriques :
+
+$\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i \implies \sum_{i=1}^n x_i = n\bar{x}$
+
+$\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i \implies \sum_{i=1}^n y_i = n\bar{y}$
+
+Somme des écarts à la moyenne :
+
+$\sum_{i=1}^n (x_i - \bar{x}) = \sum x_i - \sum \bar{x} = n\bar{x} - n\bar{x} = 0$
+
+Somme des carrés des écarts (liée à la variance) :
+
+$S_{xx} = \sum_{i=1}^n (x_i - \bar{x})^2 = \sum_{i=1}^n (x_i^2 - 2x_i\bar{x} + \bar{x}^2) = \sum x_i^2 - 2\bar{x} \sum x_i + \sum \bar{x}^2$
+
+$S_{xx} = \sum x_i^2 - 2\bar{x} (n\bar{x}) + n\bar{x}^2 = \sum x_i^2 - n\bar{x}^2$
+
+Somme des produits des écarts (liée à la covariance) :
+
+$S_{xy} = \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y}) = \sum_{i=1}^n (x_i y_i - x_i\bar{y} - \bar{x}y_i + \bar{x}\bar{y})$
+
+$S_{xy} = \sum x_i y_i - \bar{y}\sum x_i - \bar{x}\sum y_i + n\bar{x}\bar{y}$
+
+$S_{xy} = \sum x_i y_i - \bar{y}(n\bar{x}) - \bar{x}(n\bar{y}) + n\bar{x}\bar{y} = \sum x_i y_i - n\bar{x}\bar{y}$
+
+Régression Linéaire Simple : $y_i = \beta_1 + \beta_2 x_i + \epsilon_i$
+
+(Note : $\beta_1$ est l'intercept, $\beta_2$ est la pente)
+
+Estimateurs MCO :
+
+Pente : $\hat{\beta}_2 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} = \frac{S_{xy}}{S_{xx}}$
+
+Pente (autre forme) : $\hat{\beta}_2 = \frac{\sum_{i=1}^n (x_i - \bar{x})y_i}{\sum_{i=1}^n (x_i - \bar{x})^2}$
+
+Pente (pour la théorie) : $\hat{\beta}_2 = \beta_2 + \frac{\sum (x_i - \bar{x})\epsilon_i}{\sum (x_i - \bar{x})^2}$
+
+Intercept : $\hat{\beta}_1 = \bar{y} - \hat{\beta}_2 \bar{x}$
+
+Variances et Covariance des estimateurs (sous MCO $\mathbb{E}[\epsilon]=0, Var(\epsilon)=\sigma^2 I_n$) :
+
+$Var(\hat{\beta}_2) = \frac{\sigma^2}{\sum (x_i - \bar{x})^2} = \frac{\sigma^2}{S_{xx}}$
+
+$Var(\hat{\beta}_1) = \sigma^2 \left( \frac{1}{n} + \frac{\bar{x}^2}{\sum (x_i - \bar{x})^2} \right) = \sigma^2 \left( \frac{1}{n} + \frac{\bar{x}^2}{S_{xx}} \right) = \frac{\sigma^2 \sum x_i^2}{n S_{xx}}$
+
+$Cov(\hat{\beta}_1, \hat{\beta}_2) = - \frac{\sigma^2 \bar{x}}{\sum (x_i - \bar{x})^2} = - \frac{\sigma^2 \bar{x}}{S_{xx}}$
+
+Décomposition de la variance (Pythagore) :
+
+$SCT = \sum (y_i - \bar{y})^2 = S_{yy}$ (Somme des Carrés Totale)
+
+$SCE = \sum (\hat{y}_i - \bar{y})^2$ (Somme des Carrés Expliquée)
+
+$SCR = \sum (y_i - \hat{y}_i)^2 = \sum \hat{\epsilon}_i^2$ (Somme des Carrés Résiduelle)
+
+$SCT = SCE + SCR$
+
+Calcul de SCE et SCR :
+
+$\hat{y}_i = \hat{\beta}_1 + \hat{\beta}_2 x_i = \bar{y} + \hat{\beta}_2 (x_i - \bar{x})$
+
+$SCE = \sum (\hat{y}_i - \bar{y})^2 = \hat{\beta}_2^2 \sum (x_i - \bar{x})^2 = \hat{\beta}_2^2 S_{xx}$
+
+$SCE = \frac{S_{xy}^2}{S_{xx}}$
+
+$SCR = SCT - SCE = S_{yy} - \frac{S_{xy}^2}{S_{xx}}$
+
+Coefficient de détermination ($R^2$) :
+
+$R^2 = \frac{SCE}{SCT} = 1 - \frac{SCR}{SCT}$
+
+$R^2 = \frac{S_{xy}^2}{S_{xx} S_{yy}}$
+
+Calcul via corrélation : $R^2 = \rho_{x,y}^2$, où $\rho_{x,y} = \frac{S_{xy}}{\sqrt{S_{xx} S_{yy}}}$ est le coefficient de corrélation empirique.
+
+Estimateur non biaisé de $\sigma^2$ :
+
+$\hat{\sigma}^2 = \frac{SCR}{n-2}$
+
+Régression Linéaire Multiple : $Y = X\beta + \epsilon$
+
+Estimateur MCO :
+
+$\hat{\beta} = (X'X)^{-1}X'Y$
+
+Valeurs ajustées et résidus :
+
+Matrice de projection sur $\mathcal{M}(X)$ : $P_X = X(X'X)^{-1}X'$
+
+Vecteur ajusté : $\hat{Y} = P_X Y = X\hat{\beta}$
+
+Matrice de projection sur $\mathcal{M}(X)^\perp$ : $P_{X^\perp} = I_n - P_X$
+
+Vecteur résidu : $\hat{\epsilon} = Y - \hat{Y} = (I_n - P_X)Y = P_{X^\perp} Y$
+
+Autre forme : $\hat{\epsilon} = P_{X^\perp} \epsilon$
+
+Variance de $\hat{\beta}$ :
+
+$Var(\hat{\beta}) = \sigma^2 (X'X)^{-1}$
+
+Sommes des Carrés (SCR, SCE, SCT) :
+
+$SCR = ||\hat{\epsilon}||^2 = ||Y - \hat{Y}||^2 = ||(I_n - P_X)Y||^2$
+
+$SCE = ||\hat{Y} - \bar{y}\mathbf{1}||^2$ 
+
+ $SCT = ||Y - \bar{y}\mathbf{1}||^2$ 
+
+$SCT = SCE + SCR$.
+
+Coefficient de détermination 
+
+$R^2 = \frac{SCE}{SCT} = 1 - \frac{SCR}{SCT}$
+
+Estimateur non biaisé de $\sigma^2$ :
+
+$\hat{\sigma}^2 = \frac{SCR}{n-p}$
+
