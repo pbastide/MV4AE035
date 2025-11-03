@@ -18,21 +18,21 @@ Vous pouvez utiliser un autre IDE en fonction de votre préférence,
 mais ce TP part du principe que vous utilisez `Rstudio`.
 
 Vous pouvez partir de ce document pour créer votre rapport,
-ou bien en créer un nouveau depuis `Rstudio`:
+ou bien en créer un nouveau depuis `Rstudio` :
 `File > New File > Quarto Document...`.
 
 
 ## Données
 
-On utilise les données `Boston` qui sont présentes dans le package `ISLR2`,
-associé au livre [An Introduction to Statistical Learning](https://statlearning.com/),
+On utilise les données `Boston` qui sont présentes dans le package `MASS`.
+Ce TP est inspiré de la section 3.6 du livre
+[An Introduction to Statistical Learning](https://statlearning.com/),
 de G. James, D. Witten, T. Hastie and R. Tibshirani.
-Ce TP est inspiré de la section 3.6 du livre cité.
 
-Le package s'installe avec la commande :
+Le package `MASS` est standard, et s'installe si besoin avec la commande :
 ```{r}
 #| eval: false
-install.packages("ISLR2")
+install.packages("MASS")
 ```
 
 On peut ensuite charger et voir les données : 
@@ -40,14 +40,8 @@ On peut ensuite charger et voir les données :
 ```{r}
 #| message: false
 library(MASS)
-library(ISLR2)
 head(Boston)
 ```
-
-> Note: le jeu de données `Boston` est présent dans les deux libraries
-> `MASS` et `ISLR2`, légèrement modifié dans la seconde.
-> On prendra garde à bien charger les libraries dans cet ordre
-> (`MASS` d'abord, puis `ISLR2`) pour travailler sur la bonne version des données.
 
 Une description du jeu de données peut être obtenue dans l'aide,
 en tapant dans la console :
@@ -118,7 +112,7 @@ ggplot(Boston, aes(x = lstat, y = medv)) +
 
 8. Que vaut la statistique de Fisher pour ce model ? 
 Montrez que dans ce cas, elle peut être vue comme la statistique de Student 
-d'un des coefficients mise au carré. Interprettez.
+d'un des coefficients mise au carré. Interprétez.
 
 ## Régression multiple
 
@@ -135,12 +129,17 @@ Quel modèle préférez-vous ?
 11. Faites le test de Fisher emboîté entre les deux modèles à l'aide de la fonction `anova`.
 Interprétez. Est-ce cohérent avec les résultats de la question précédente ?
 
-12. Appliquez la procédure "backward" pour la sélection de variable,
-en utilisant l'AIC, et la fonction `dropterm` de la librairie `MASS`.
-Quelle conclusion obtenez vous ?
-
-13. Faites la régression linéaire de `medv` contre les seules variables `age` et `indus`.
+12. Faites la régression linéaire de `medv` contre les seules variables `age` et `indus`.
 Interprétez le résultat.
+
+## Croissance du $R^2$
+
+13. Générez une variable aléatoire `bruit` indépendante des autres variables,
+avec la loi de votre choix. Ajouter cette variable à la régression avec
+la formule `medv ~ . + bruit`.
+Comment a évolué le $R^2$ ?
+Est-ce normal ?
+Que ce passe-t-il si vous ajoutez plusieurs variables de bruit ?
 
 ## Transformation de données
 

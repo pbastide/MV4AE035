@@ -39,8 +39,9 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 
 ## TPs
 
-<!---
 * [TP1: Régression multiple](TP/TP1.html)
+
+<!---
 * [TP2: ANOVA](TP/TP2.html)
 -->
 
