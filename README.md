@@ -53,6 +53,7 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 
 * Examen intermédiaire :
   - 2024-2025 : [énoncé](exams/2025_CC.pdf) et [corrigé](exams/2025_CC_cor.pdf).
+  - 2054-2026 : [énoncé](exams/2025_S1_CC_final.pdf) et [corrigé](exams/2025_S1_CC_final_cor.pdf).
 * Examen final :
   - 2024-2025 : [énoncé](exams/2025_session1.pdf) et [corrigé](exams/2025_session1_cor.pdf).
 
