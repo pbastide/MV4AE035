@@ -19,10 +19,10 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 * [CM2: Régression simple - Gaussien](CM/CM2_regression_simple_gauss.html)
 * [CM3: Régression multiple - MCO](CM/CM3_Regression_Multiple_OLS.html)
 * [CM4: Régression multiple - Gaussien](CM/CM4_Regression_Multiple_Gauss.html)
+* [CM5: Tests et sélection de modèle](CM/CM5_Tests_Model_Choice.html)
+* [CM5 (bonus): Sélection de variables](CM/CM5bis_Variable_Selection.html)
 
 <!---
-* [CM5: Tests et sélection de modèle](CM/CM5_Tests_Model_Choice.html)
-* [CM6: Sélection de variables](CM/CM6_Variable_Selection.html)
 * [CM7: Validation de modèle](CM/CM7_validation.html)
 * [CM8: ANOVA](CM/CM8_anova.html)
 * [CM9: Modèles Mixtes](CM/CM9_mixed_models.html)

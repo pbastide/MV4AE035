@@ -1,7 +1,7 @@
 ---
 title: 'Régression Multiple - Choix de Modèle'
 author: "Paul Bastide"
-date: "2025-03-05"
+date: "2025-11-18"
 format:
   revealjs: 
     theme: simple
@@ -1053,3 +1053,457 @@ $$
 
 * Variable Selection
 
+
+<!-- ************************************************************************ -->
+# Variable Selection
+
+## How to choose the "best" model ?
+
+**Model**:
+$$
+y_i = \beta_1 x_{i1} + \dotsb + \beta_p x_{ip} + \epsilon_i
+$$
+
+**Problem**:  
+Can we choose the "best" subset of non-zero $\beta_k$ ?  
+
+I.e. Can we find the predictors that really have an impact on $\mathbf{y}$ ?
+
+**Idea**:  
+Find a "score" to assess the quality of a given fit.
+
+## Variable selection - $R^2$
+
+```{r test9b, echo=FALSE}
+set.seed(1289)
+## Predictors
+n <- 500
+x_1 <- runif(n, min = -2, max = 2)
+x_2 <- runif(n, min = -2, max = 2)
+## Noise
+eps <- rnorm(n, mean = 0, sd = 2)
+## Model sim
+beta_0 <- -1; beta_1 <- 3; beta_2 <- -1
+y_sim <- beta_0 + beta_1 * x_1 + beta_2 * x_2 + eps
+## Useless predictor
+x_junk_1 <- runif(n, min = -2, max = 2)
+## Other Useless Predictors
+p_junk <- 100
+x_junk <- matrix(runif(n * p_junk, min = -2, max = 2),
+                 ncol = p_junk)
+## Data frame
+data_junk <- data.frame(y_sim = y_sim,
+                        x_junk = x_junk)
+## Data frame
+data_all <- data.frame(y_sim = y_sim,
+                       x_1 = x_1,
+                       x_2 = x_2,
+                       x_junk = x_junk)
+```
+
+$$
+R^2 = 1 - \frac{RSS}{TSS}
+$$
+
+```{r test12, echo=TRUE}
+## Function to get statistics for one fit
+get_stats_fit <- function(fit) {
+  sumfit <- summary(fit)
+  res <- data.frame(R2 = sumfit$r.squared)
+  return(res)
+}
+```
+
+$$
+y_i = -1 + 3 x_{i1} - x_{i2} + \epsilon_i
+$$
+
+## Variable selection - $R^2$ {.smaller}
+
+* True fit
+```{r test13a, echo=TRUE}
+get_stats_fit(lm(y_sim ~ x_1 + x_2, data = data_all))
+```
+
+* Bigger fit
+```{r test13b, echo=TRUE}
+get_stats_fit(lm(y_sim ~ x_1 + x_2 + x_junk.1, data = data_all))
+```
+
+* Wrong fit
+```{r test13c, echo=TRUE}
+get_stats_fit(lm(y_sim ~ x_1 + x_junk.1, data = data_all))
+```
+
+```{r test132, echo=FALSE}
+## Function to get statistics for one set of predictors
+get_stats_pred <- function(preds, y, data) {
+  fit <- lm(reformulate(preds, y), data = data)
+  res <- get_stats_fit(fit)
+  res$preds <- paste(preds, collapse = "+")
+  return(res)
+}
+
+## Function to get all statistics
+get_all_stats <- function(data_sub) {
+  all_preds <- colnames(data_sub)[-1]
+  y <- colnames(data_sub)[1]
+  all_combs <- c(combn(all_preds, 1, get_stats_pred, simplify = FALSE, y = y, data = data_sub),
+                 combn(all_preds, 2, get_stats_pred, simplify = FALSE, y = y, data = data_sub),
+                 combn(all_preds, 3, get_stats_pred, simplify = FALSE, y = y, data = data_sub))
+  res <- do.call(rbind, all_combs)
+  return(res)
+}
+```
+
+## Variable selection - $R^2$
+
+```{r test133, echo=TRUE}
+## Only one "junk" predictor
+data_sub <- data.frame(y_sim = y_sim,
+                       x_1 = x_1,
+                       x_2 = x_2,
+                       x_junk = x_junk_1)
+## Fit all possible models
+get_all_stats(data_sub)
+```
+
+**$R^2$ is not enough.**
+
+## $R^2$ is always increasing
+
+$$
+R^2 = 1 - \frac{RSS}{TSS}
+= 1 - \frac{\|\hat{\epsilon}\|^2}{\|\mathbf{y} - \bar{y} \mathbb{1}\|^2}
+= 1 - \frac{\|\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}}\|^2}{\|\mathbf{y} - \bar{y} \mathbb{1}\|^2}
+$$
+
+If $\mathbf{X}' = (\mathbf{X} ~ \mathbf{x}_{p+1})$ has one more row, then:
+$$
+\begin{aligned}
+\|\mathbf{y} - \mathbf{X}'\hat{\boldsymbol{\beta}}'\|^2
+& = \underset{\boldsymbol{\beta}' \in \mathbb{R}^{p+1}}{\operatorname{min}} 
+\|\mathbf{y} - \mathbf{X}'\boldsymbol{\beta}' \|^2\\
+& = \underset{\boldsymbol{\beta} \in \mathbb{R}^p\\ \beta_{p+1} \in \mathbb{R}}{\operatorname{min}} 
+\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta} - \mathbf{x}_{p+1}\beta_{p+1} \|^2\\
+& \leq \underset{\boldsymbol{\beta} \in \mathbb{R}^p}{\operatorname{min}} 
+\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|^2
+\end{aligned}
+$$
+
+$$
+\text{Hence:}\quad
+\|\mathbf{y} - \mathbf{X}'\hat{\boldsymbol{\beta}}'\|^2 \leq \|\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}}\|^2
+$$
+
+<!-- ************************************************************************ -->
+# Penalized Residual Sum of Squares
+<!-- ************************************************************************ -->
+
+## Variable selection - $R_a^2$
+
+$$
+R_a^2 = 1 - \frac{RSS / (n-p)}{TSS / (n-1)} 
+$$
+
+* **Penalize** for the number of predictors $p$.
+
+* **Attention** $p$ includes the intercept (rank of matrix $\mathbf{X}$).
+
+```{r test14, echo=TRUE}
+## Function to get statistics
+get_stats_fit <- function(fit) {
+  sumfit <- summary(fit)
+  res <- data.frame(R2 = sumfit$r.squared,
+                    R2a = sumfit$adj.r.squared)
+  return(res)
+}
+```
+
+## Variable selection - $R_a^2$
+
+```{r test15, echo=TRUE}
+get_all_stats(data_sub)
+```
+
+**$R_a^2$: adjust for the number of predictors.**
+
+## Adjusted $R_a^2$
+
+$$
+R_a^2 = 1 - \frac{RSS_p / (n-p)}{TSS / (n-1)} 
+$$
+
+* $RSS_p = \|\mathbf{y} - \mathbf{X}_p\hat{\beta}_p \|^2$ where $rg(\mathbf{X}_p) = p$.
+
+* The larger the better.
+
+* When $p$ is bigger, the fit must be really better for $R_a^2$ to raise.
+
+* Intuitive, but not much theoretical justifications.
+
+## Mallow's $C_p$
+
+$$
+C_p = \frac{1}{n} \left( RSS_p + 2 p \hat{\sigma}^2 \right)
+$$
+
+* Penalize for the number of parameters $p$.
+
+* The **smaller** the better.
+
+* Unbiaised estimate of the *theoretical risk*.
+
+## Simulated Dataset
+
+```{r test161, echo=TRUE}
+## Mallow's Cp
+Cp <- function(fit) {
+  n <- nobs(fit)
+  p <- n - df.residual(fit)
+  RSS <- deviance(fit)
+  return( (RSS + p * RSS / (n - p)) / n)
+}
+## Function to get statistics
+get_stats_fit <- function(fit) {
+  sumfit <- summary(fit)
+  res <- data.frame(Cp = Cp(fit))
+  return(res)
+}
+```
+
+## Variable selection
+
+```{r test162, echo=TRUE}
+## Apply stats to all possible combinations
+all_stats <- get_all_stats(data_sub)
+all_stats
+```
+
+Mallow's $C_p$ is **smallest** for the true model.
+
+<!-- ************************************************************************ -->
+# Penalized Log Likelihood 
+<!-- ************************************************************************ -->
+
+## Maximized Log Likelihood 
+
+Recall:
+$$
+\begin{aligned}
+(\hat{\boldsymbol{\beta}}_p, \hat{\sigma}^2_{p,ML}) 
+&= \underset{(\boldsymbol{\beta}, \sigma^2) \in \mathbb{R}^{p}\times\mathbb{R}_+^*}{\operatorname{argmax}} 
+\log L(\boldsymbol{\beta}, \sigma^2 | \mathbf{y})\\
+&= \underset{(\boldsymbol{\beta}, \sigma^2) \in \mathbb{R}^{p}\times\mathbb{R}_+^*}{\operatorname{argmax}} 
+- \frac{n}{2} \log(2\pi\sigma^2) 
+- \frac{1}{2\sigma^2}\|\mathbf{y} - \mathbf{X}_p\boldsymbol{\beta} \|^2
+\end{aligned}
+$$
+
+And: 
+$$
+\hat{\sigma}^2_{p,ML} = \frac{ \|\mathbf{y} - \hat{\mathbf{y}}_p \|^2} {n}
+\quad;\quad
+\hat{\mathbf{y}}_p = \mathbf{X}_p\hat{\boldsymbol{\beta}}_p
+$$
+
+Thus:
+$$
+L(\hat{\boldsymbol{\beta}}_p, \hat{\sigma}^2_{ML} | \mathbf{y})
+= 
+\cdots
+$$
+
+## Maximized Log Likelihood 
+
+The maximized likelihood is equal to:
+$$
+L(\hat{\boldsymbol{\beta}}_p, \hat{\sigma}^2_{ML} | \mathbf{y})
+= 
+- \frac{n}{2} \log\left(2\pi\frac{ \|\mathbf{y} - \hat{\mathbf{y}}_p \|^2}{n}\right) 
+- \frac{1}{2\frac{ \|\mathbf{y} - \hat{\mathbf{y}}_p \|^2}{n}}\|\mathbf{y} - \hat{\mathbf{y}}_p \|^2
+$$
+
+i.e.
+$$
+\log \hat{L}_p
+= 
+- \frac{n}{2} \log\left(\frac{ \|\mathbf{y} - \hat{\mathbf{y}}_p \|^2}{n}\right) 
+- \frac{n}{2} \log\left(2\pi\right) 
+- \frac{n}{2}
+$$
+
+## Maximized Log Likelihood is increasing 
+
+Remember, for any $\eta \subset \eta'$:
+$$
+\|\mathbf{y} - \hat{\mathbf{y}}_{p'}\|^2 \leq \|\mathbf{y} - \hat{\mathbf{y}}_p\|^2
+$$
+
+Hence
+$R^2_p = 1 - \frac{\|\mathbf{y} - \hat{\mathbf{y}}_p\|^2}{\|\mathbf{y} - \bar{y} \mathbb{1}\|^2}$
+always **increases** when we add a predictor.
+
+Similarly:
+$$
+\log \hat{L}_p
+= 
+- \frac{n}{2} \log\left(\frac{ \|\mathbf{y} - \hat{\mathbf{y}}_p \|^2}{n}\right) 
+- \frac{n}{2} \log\left(2\pi\right) 
+- \frac{n}{2}
+$$
+always **increases** when we add some predictors.
+
+## Penalized Maximized Log Likelihood 
+
+**Problem:** $\log \hat{L}_p$ always **increases** when we add some predictors.
+
+$\to$ it can not be used for model selection (same as $R^2$).
+
+**Idea**: add a penalty term that depends on the size of the model
+
+$\to$ minimize:
+$$
+- \log \hat{L}_p + f(p) \qquad \text{with f increasing}
+$$
+
+## Penalized Maximized Log Likelihood 
+
+Minimize:
+$$
+- \log \hat{L}_p + f(p) \qquad \text{with f increasing}
+$$
+
+For nested models:
+
+* $- \log \hat{L}_p$ decreases
+
+* $f(p)$ increases
+
+**Goal**: find $f$ that compensates for the "overfit", i.e. the noisy and insignificant
+increase of the likelihood when we add some unrelated predictors.
+
+## Simulated Dataset
+
+```{r test171, echo=TRUE}
+## Function to get statistics
+get_stats_fit <- function(fit) {
+  sumfit <- summary(fit)
+  res <- data.frame(minusLogLik = -logLik(fit))
+  return(res)
+}
+```
+
+## Variable selection
+
+```{r test181, echo=TRUE}
+## Apply stats to all possible combinations
+all_stats <- get_all_stats(data_sub)
+all_stats
+```
+
+When we add "junk" variable, $- \log \hat{L}_p$ decreases, but not a lot.
+
+**Questions**: can we find a good penalty that compensates for this noisy increasing ?
+
+<!-- ************************************************************************ -->
+# AIC and BIC
+<!-- ************************************************************************ -->
+
+## Akaike Information Criterion - AIC
+
+$$
+AIC = - 2\log \hat{L}_p + 2 p
+$$
+
+
+* $\hat{L}_p$ is the **maximized likelihood** of the model.
+
+* $p$ is the **dimension** of the model.
+
+* The **smaller** the better.
+
+* Asymptotic theoretical guaranties.
+
+* Easy to use and **widely spread**
+
+## Bayesian Information Criterion - BIC
+
+$$
+BIC = - 2\log \hat{L}_p + p \log(n)
+$$
+
+$~$
+
+* $\hat{L}_p$ is the **maximized likelihood** of the model.
+
+* $p$ is the **dimension** of the model.
+
+* The **smaller** the better.
+
+* Based on an approximation of the marginal likelihood.
+
+* Easy to use and **widely spread**
+
+See: Lebarbier, Mary-Huard. *Le critère BIC : fondements théoriques et interprétation.* 2004. [[inria-00070685]](https://hal.archives-ouvertes.fr/inria-00070685/)
+
+
+## AIC vs BIC
+
+$$
+AIC = - 2\log \hat{L}_p + 2 p
+$$
+
+$$
+BIC = - 2\log \hat{L}_p + p \log(n)
+$$
+
+* Both have asymptotic theoretical justifications.
+
+* BIC penalizes more than AIC $\to$ chooses smaller models.
+
+* Both **widely used**.
+
+* There are some (better) non-asymptotic criteria, see  
+Giraud C. 2014. *Introduction to high-dimensional statistics.*
+
+## Simulated Dataset
+
+```{r test17, echo=TRUE}
+## Function to get statistics
+get_stats_fit <- function(fit) {
+  sumfit <- summary(fit)
+  res <- data.frame(minusLogLik = -logLik(fit),
+                    AIC = AIC(fit),
+                    BIC = BIC(fit))
+  return(res)
+}
+```
+
+## Variable selection
+
+```{r test18, echo=TRUE}
+## Apply stats to all possible combinations
+all_stats <- get_all_stats(data_sub)
+all_stats
+
+## Select model
+apply(all_stats[, -ncol(all_stats)], 2,
+      function(x) all_stats[which.min(x), ncol(all_stats)])
+```
+
+## Variable selection - Advertising data
+
+```{r test19, message = FALSE}
+## Advertising data
+library(here)
+ad <- read.csv(here("data", "Advertising.csv"), row.names = "X")
+
+## Apply stats to all possible combinations
+all_stats <- get_all_stats(ad[, c(4, 1:3)])
+all_stats
+
+## Select model
+apply(all_stats[, -ncol(all_stats)], 2,
+      function(x) all_stats[which.min(x), ncol(all_stats)])
+```
