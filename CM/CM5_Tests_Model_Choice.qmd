@@ -1507,3 +1507,173 @@ all_stats
 apply(all_stats[, -ncol(all_stats)], 2,
       function(x) all_stats[which.min(x), ncol(all_stats)])
 ```
+
+<!-- ************************************************************************ -->
+# Forward and Backward Search
+<!-- ************************************************************************ -->
+
+## Combinatorial problem
+
+$$
+p \text{ predictors } \to 2^p \text{ possible models.}
+$$
+
+* Cannot test all possible models.
+
+* "Manual" solution: forward or backward searches.
+
+## Forward search
+
+* Start with the null model (no predictor)
+
+* Try to **add one** predictor ($p$ models to fit)
+
+* Choose the best fitting among the $p$ models.
+
+* Repeat until no more predictors to add.
+
+* Choose best fit with $C_p$, AIC or BIC.
+
+## Forward search - Init
+
+```{r forward, message = FALSE}
+## Full formula
+full_formula <- formula(y_sim ~ x_1 + x_2 
+                        + x_junk.1 + x_junk.2 + x_junk.3 
+                        + x_junk.4 + x_junk.5 + x_junk.6)
+
+## Complete search
+2^8
+
+## No predictors
+fit0 <- lm(y_sim ~ 1, data = data_all)
+```
+
+## Forward search - Add term
+
+```{r forward1, message = FALSE}
+## Add one
+library(MASS)
+addterm(fit0, full_formula)
+```
+
+## Forward search - Add term
+
+```{r forward2, message = FALSE}
+## Add x_1
+fit1 <- lm(y_sim ~ 1 + x_1, data = data_all)
+## Add another
+addterm(fit1, full_formula)
+```
+
+## Forward search - Add term
+
+```{r forward3, message = FALSE}
+## Add x_1
+fit2 <- lm(y_sim ~ 1 + x_1 + x_2, data = data_all)
+## Add another
+addterm(fit2, full_formula)
+```
+
+## Backward search
+
+* Start with the full model (all predictors)
+
+* Try to **remove one** predictor ($p$ models to fit)
+
+* Choose the best fitting among the $p$ models.
+
+* Repeat until no more predictors to remove.
+
+* Choose best fit with $C_p$, AIC or BIC.
+
+## Backward search - Init {.smaller}
+
+```{r backward, message = FALSE}
+## Full formula
+fit0 <- lm(y_sim ~ x_1 + x_2 
+                        + x_junk.1 + x_junk.2 + x_junk.3 
+                        + x_junk.4 + x_junk.5 + x_junk.6,
+           data = data_all)
+```
+
+```{r backward1, message = FALSE}
+## drop one
+dropterm(fit0)
+```
+
+## Backward search - Drop term {.smaller}
+
+```{r backward2, message = FALSE}
+## drop x_junk.3
+fit1 <- lm(y_sim ~ x_1 + x_2 
+           + x_junk.1 + x_junk.2 +
+           + x_junk.4 + x_junk.5 + x_junk.6, data = data_all)
+## Drop another
+dropterm(fit1)
+```
+
+## Backward search - Drop term {.smaller}
+
+```{r backward3, message = FALSE}
+## drop x_junk.4
+fit2 <- lm(y_sim ~ x_1 + x_2 
+           + x_junk.1 + x_junk.2 +
+           + x_junk.5 + x_junk.6, data = data_all)
+## Drop another
+dropterm(fit2)
+```
+
+## Backward search - Drop term {.smaller}
+
+```{r backward4, message = FALSE}
+## drop x_junk.1
+fit3 <- lm(y_sim ~ x_1 + x_2 
+           + x_junk.2 +
+           + x_junk.5 + x_junk.6, data = data_all)
+## Drop another
+dropterm(fit3)
+```
+
+## Backward search - Drop term {.smaller}
+
+```{r backward5, message = FALSE}
+## drop x_junk.2
+fit4 <- lm(y_sim ~ x_1 + x_2 
+           + x_junk.5 + x_junk.6, data = data_all)
+## Drop another
+dropterm(fit4)
+```
+
+## Backward search - Drop term {.smaller}
+
+```{r backward6, message = FALSE}
+## drop x_junk.6
+fit5 <- lm(y_sim ~ x_1 + x_2 
+           + x_junk.5, data = data_all)
+## Drop another
+dropterm(fit5)
+```
+
+## Backward search - Drop term {.smaller}
+
+```{r backward7, message = FALSE}
+## drop x_junk.5
+fit6 <- lm(y_sim ~ x_1 + x_2,
+           data = data_all)
+## Drop another
+dropterm(fit6)
+```
+
+
+## Forward and backward searches
+
+* Both are **heuristics**.
+
+* There are no guaranties that both converge to the same solution.
+
+* No theoretical guaranties on the selected model.
+
+* Model selection is still an active area of research.
+   - See e.g: LASSO and other penalized criteria (M2)
+   

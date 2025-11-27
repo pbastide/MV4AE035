@@ -2455,6 +2455,312 @@ Giraud C. 2014. <em>Introduction to high-dimensional statistics.</em></p></li>
 &quot;TV+radio+newspaper&quot;           &quot;TV+radio&quot;           &quot;TV+radio&quot; </code></pre>
 </div>
 </div>
+<!-- ************************************************************************ -->
+</section></section>
+<section>
+<section id="forward-and-backward-search" class="title-slide slide level1 center">
+<h1>Forward and Backward Search</h1>
+<!-- ************************************************************************ -->
+</section>
+<section id="combinatorial-problem" class="slide level2">
+<h2>Combinatorial problem</h2>
+<p><span class="math display">\[
+p \text{ predictors } \to 2^p \text{ possible models.}
+\]</span></p>
+<ul>
+<li><p>Cannot test all possible models.</p></li>
+<li><p>“Manual” solution: forward or backward searches.</p></li>
+</ul>
+</section>
+<section id="forward-search" class="slide level2">
+<h2>Forward search</h2>
+<ul>
+<li><p>Start with the null model (no predictor)</p></li>
+<li><p>Try to <strong>add one</strong> predictor (<span class="math inline">\(p\)</span> models to fit)</p></li>
+<li><p>Choose the best fitting among the <span class="math inline">\(p\)</span> models.</p></li>
+<li><p>Repeat until no more predictors to add.</p></li>
+<li><p>Choose best fit with <span class="math inline">\(C_p\)</span>, AIC or BIC.</p></li>
+</ul>
+</section>
+<section id="forward-search---init" class="slide level2">
+<h2>Forward search - Init</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href></a><span class="do">## Full formula</span></span>
+<span id="cb53-2"><a href></a>full_formula <span class="ot">&lt;-</span> <span class="fu">formula</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2 </span>
+<span id="cb53-3"><a href></a>                        <span class="sc">+</span> x_junk<span class="fl">.1</span> <span class="sc">+</span> x_junk<span class="fl">.2</span> <span class="sc">+</span> x_junk<span class="fl">.3</span> </span>
+<span id="cb53-4"><a href></a>                        <span class="sc">+</span> x_junk<span class="fl">.4</span> <span class="sc">+</span> x_junk<span class="fl">.5</span> <span class="sc">+</span> x_junk<span class="fl">.6</span>)</span>
+<span id="cb53-5"><a href></a></span>
+<span id="cb53-6"><a href></a><span class="do">## Complete search</span></span>
+<span id="cb53-7"><a href></a><span class="dv">2</span><span class="sc">^</span><span class="dv">8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 256</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href></a><span class="do">## No predictors</span></span>
+<span id="cb55-2"><a href></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> data_all)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="forward-search---add-term" class="slide level2">
+<h2>Forward search - Add term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href></a><span class="do">## Add one</span></span>
+<span id="cb56-2"><a href></a><span class="fu">library</span>(MASS)</span>
+<span id="cb56-3"><a href></a><span class="fu">addterm</span>(fit0, full_formula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term additions
+
+Model:
+y_sim ~ 1
+         Df Sum of Sq    RSS     AIC
+&lt;none&gt;                9072.7 1451.21
+x_1       1    6540.3 2532.4  815.17
+x_2       1    1051.3 8021.4 1391.63
+x_junk.1  1      22.9 9049.8 1451.95
+x_junk.2  1      33.0 9039.7 1451.39
+x_junk.3  1      60.2 9012.5 1449.88
+x_junk.4  1      26.9 9045.8 1451.72
+x_junk.5  1      10.0 9062.8 1452.66
+x_junk.6  1       8.7 9064.0 1452.73</code></pre>
+</div>
+</div>
+</section>
+<section id="forward-search---add-term-1" class="slide level2">
+<h2>Forward search - Add term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href></a><span class="do">## Add x_1</span></span>
+<span id="cb58-2"><a href></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x_1, <span class="at">data =</span> data_all)</span>
+<span id="cb58-3"><a href></a><span class="do">## Add another</span></span>
+<span id="cb58-4"><a href></a><span class="fu">addterm</span>(fit1, full_formula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term additions
+
+Model:
+y_sim ~ 1 + x_1
+         Df Sum of Sq    RSS    AIC
+&lt;none&gt;                2532.4 815.17
+x_2       1    631.94 1900.5 673.63
+x_junk.1  1     39.55 2492.9 809.30
+x_junk.2  1      4.12 2528.3 816.35
+x_junk.3  1     12.01 2520.4 814.79
+x_junk.4  1      0.00 2532.4 817.17
+x_junk.5  1      0.07 2532.4 817.15
+x_junk.6  1      8.99 2523.5 815.39</code></pre>
+</div>
+</div>
+</section>
+<section id="forward-search---add-term-2" class="slide level2">
+<h2>Forward search - Add term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href></a><span class="do">## Add x_1</span></span>
+<span id="cb60-2"><a href></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x_1 <span class="sc">+</span> x_2, <span class="at">data =</span> data_all)</span>
+<span id="cb60-3"><a href></a><span class="do">## Add another</span></span>
+<span id="cb60-4"><a href></a><span class="fu">addterm</span>(fit2, full_formula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term additions
+
+Model:
+y_sim ~ 1 + x_1 + x_2
+         Df Sum of Sq    RSS    AIC
+&lt;none&gt;                1900.5 673.63
+x_junk.1  1    7.2994 1893.2 673.71
+x_junk.2  1    3.2311 1897.3 674.78
+x_junk.3  1    7.4492 1893.0 673.67
+x_junk.4  1    0.5146 1900.0 675.50
+x_junk.5  1    3.6290 1896.9 674.68
+x_junk.6  1    2.4825 1898.0 674.98</code></pre>
+</div>
+</div>
+</section>
+<section id="backward-search" class="slide level2">
+<h2>Backward search</h2>
+<ul>
+<li><p>Start with the full model (all predictors)</p></li>
+<li><p>Try to <strong>remove one</strong> predictor (<span class="math inline">\(p\)</span> models to fit)</p></li>
+<li><p>Choose the best fitting among the <span class="math inline">\(p\)</span> models.</p></li>
+<li><p>Repeat until no more predictors to remove.</p></li>
+<li><p>Choose best fit with <span class="math inline">\(C_p\)</span>, AIC or BIC.</p></li>
+</ul>
+</section>
+<section id="backward-search---init" class="slide level2 smaller">
+<h2>Backward search - Init</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href></a><span class="do">## Full formula</span></span>
+<span id="cb62-2"><a href></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2 </span>
+<span id="cb62-3"><a href></a>                        <span class="sc">+</span> x_junk<span class="fl">.1</span> <span class="sc">+</span> x_junk<span class="fl">.2</span> <span class="sc">+</span> x_junk<span class="fl">.3</span> </span>
+<span id="cb62-4"><a href></a>                        <span class="sc">+</span> x_junk<span class="fl">.4</span> <span class="sc">+</span> x_junk<span class="fl">.5</span> <span class="sc">+</span> x_junk<span class="fl">.6</span>,</span>
+<span id="cb62-5"><a href></a>           <span class="at">data =</span> data_all)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href></a><span class="do">## drop one</span></span>
+<span id="cb63-2"><a href></a><span class="fu">dropterm</span>(fit0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y_sim ~ x_1 + x_2 + x_junk.1 + x_junk.2 + x_junk.3 + x_junk.4 + 
+    x_junk.5 + x_junk.6
+         Df Sum of Sq    RSS     AIC
+&lt;none&gt;                1875.5  679.01
+x_1       1    6007.5 7883.0 1394.93
+x_2       1     592.2 2467.7  814.22
+x_junk.1  1       6.7 1882.2  678.78
+x_junk.2  1       3.7 1879.2  678.00
+x_junk.3  1       6.9 1882.4  678.86
+x_junk.4  1       0.8 1876.3  677.22
+x_junk.5  1       3.6 1879.1  677.97
+x_junk.6  1       3.7 1879.2  678.01</code></pre>
+</div>
+</div>
+</section>
+<section id="backward-search---drop-term" class="slide level2 smaller">
+<h2>Backward search - Drop term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href></a><span class="do">## drop x_junk.3</span></span>
+<span id="cb65-2"><a href></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2 </span>
+<span id="cb65-3"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.1</span> <span class="sc">+</span> x_junk<span class="fl">.2</span> <span class="sc">+</span></span>
+<span id="cb65-4"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.4</span> <span class="sc">+</span> x_junk<span class="fl">.5</span> <span class="sc">+</span> x_junk<span class="fl">.6</span>, <span class="at">data =</span> data_all)</span>
+<span id="cb65-5"><a href></a><span class="do">## Drop another</span></span>
+<span id="cb65-6"><a href></a><span class="fu">dropterm</span>(fit1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y_sim ~ x_1 + x_2 + x_junk.1 + x_junk.2 + +x_junk.4 + x_junk.5 + 
+    x_junk.6
+         Df Sum of Sq    RSS     AIC
+&lt;none&gt;                1882.4  678.86
+x_1       1    6045.2 7927.6 1395.75
+x_2       1     595.1 2477.5  814.20
+x_junk.1  1       7.9 1890.3  678.95
+x_junk.2  1       3.5 1886.0  677.79
+x_junk.4  1       0.6 1883.1  677.03
+x_junk.5  1       3.7 1886.1  677.84
+x_junk.6  1       3.2 1885.7  677.72</code></pre>
+</div>
+</div>
+</section>
+<section id="backward-search---drop-term-1" class="slide level2 smaller">
+<h2>Backward search - Drop term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href></a><span class="do">## drop x_junk.4</span></span>
+<span id="cb67-2"><a href></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2 </span>
+<span id="cb67-3"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.1</span> <span class="sc">+</span> x_junk<span class="fl">.2</span> <span class="sc">+</span></span>
+<span id="cb67-4"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.5</span> <span class="sc">+</span> x_junk<span class="fl">.6</span>, <span class="at">data =</span> data_all)</span>
+<span id="cb67-5"><a href></a><span class="do">## Drop another</span></span>
+<span id="cb67-6"><a href></a><span class="fu">dropterm</span>(fit2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y_sim ~ x_1 + x_2 + x_junk.1 + x_junk.2 + +x_junk.5 + x_junk.6
+         Df Sum of Sq    RSS     AIC
+&lt;none&gt;                1883.1  677.03
+x_1       1    6075.6 7958.7 1395.71
+x_2       1     594.4 2477.5  812.20
+x_junk.1  1       7.8 1890.9  677.11
+x_junk.2  1       3.4 1886.5  675.93
+x_junk.5  1       3.7 1886.8  676.02
+x_junk.6  1       3.2 1886.3  675.88</code></pre>
+</div>
+</div>
+</section>
+<section id="backward-search---drop-term-2" class="slide level2 smaller">
+<h2>Backward search - Drop term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href></a><span class="do">## drop x_junk.1</span></span>
+<span id="cb69-2"><a href></a>fit3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2 </span>
+<span id="cb69-3"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.2</span> <span class="sc">+</span></span>
+<span id="cb69-4"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.5</span> <span class="sc">+</span> x_junk<span class="fl">.6</span>, <span class="at">data =</span> data_all)</span>
+<span id="cb69-5"><a href></a><span class="do">## Drop another</span></span>
+<span id="cb69-6"><a href></a><span class="fu">dropterm</span>(fit3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y_sim ~ x_1 + x_2 + x_junk.2 + +x_junk.5 + x_junk.6
+         Df Sum of Sq    RSS     AIC
+&lt;none&gt;                1890.9  677.11
+x_1       1    6067.8 7958.7 1393.71
+x_2       1     628.4 2519.3  818.56
+x_junk.2  1       3.1 1894.0  675.92
+x_junk.5  1       3.9 1894.8  676.14
+x_junk.6  1       2.8 1893.7  675.85</code></pre>
+</div>
+</div>
+</section>
+<section id="backward-search---drop-term-3" class="slide level2 smaller">
+<h2>Backward search - Drop term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href></a><span class="do">## drop x_junk.2</span></span>
+<span id="cb71-2"><a href></a>fit4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2 </span>
+<span id="cb71-3"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.5</span> <span class="sc">+</span> x_junk<span class="fl">.6</span>, <span class="at">data =</span> data_all)</span>
+<span id="cb71-4"><a href></a><span class="do">## Drop another</span></span>
+<span id="cb71-5"><a href></a><span class="fu">dropterm</span>(fit4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y_sim ~ x_1 + x_2 + x_junk.5 + x_junk.6
+         Df Sum of Sq    RSS     AIC
+&lt;none&gt;                1894.0  675.92
+x_1       1    6098.6 7992.6 1393.83
+x_2       1     629.2 2523.3  817.35
+x_junk.5  1       4.0 1898.0  674.98
+x_junk.6  1       2.9 1896.9  674.68</code></pre>
+</div>
+</div>
+</section>
+<section id="backward-search---drop-term-4" class="slide level2 smaller">
+<h2>Backward search - Drop term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href></a><span class="do">## drop x_junk.6</span></span>
+<span id="cb73-2"><a href></a>fit5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2 </span>
+<span id="cb73-3"><a href></a>           <span class="sc">+</span> x_junk<span class="fl">.5</span>, <span class="at">data =</span> data_all)</span>
+<span id="cb73-4"><a href></a><span class="do">## Drop another</span></span>
+<span id="cb73-5"><a href></a><span class="fu">dropterm</span>(fit5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y_sim ~ x_1 + x_2 + x_junk.5
+         Df Sum of Sq    RSS     AIC
+&lt;none&gt;                1896.9  674.68
+x_1       1    6097.8 7994.6 1391.96
+x_2       1     635.5 2532.4  817.15
+x_junk.5  1       3.6 1900.5  673.63</code></pre>
+</div>
+</div>
+</section>
+<section id="backward-search---drop-term-5" class="slide level2 smaller">
+<h2>Backward search - Drop term</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href></a><span class="do">## drop x_junk.5</span></span>
+<span id="cb75-2"><a href></a>fit6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_1 <span class="sc">+</span> x_2,</span>
+<span id="cb75-3"><a href></a>           <span class="at">data =</span> data_all)</span>
+<span id="cb75-4"><a href></a><span class="do">## Drop another</span></span>
+<span id="cb75-5"><a href></a><span class="fu">dropterm</span>(fit6)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Single term deletions
+
+Model:
+y_sim ~ x_1 + x_2
+       Df Sum of Sq    RSS     AIC
+&lt;none&gt;              1900.5  673.63
+x_1     1    6120.9 8021.4 1391.63
+x_2     1     631.9 2532.4  815.17</code></pre>
+</div>
+</div>
+</section>
+<section id="forward-and-backward-searches" class="slide level2">
+<h2>Forward and backward searches</h2>
+<ul>
+<li><p>Both are <strong>heuristics</strong>.</p></li>
+<li><p>There are no guaranties that both converge to the same solution.</p></li>
+<li><p>No theoretical guaranties on the selected model.</p></li>
+<li><p>Model selection is still an active area of research.</p>
+<ul>
+<li>See e.g: LASSO and other penalized criteria (M2)</li>
+</ul></li>
+</ul>
 
 </section></section>
     </div>
