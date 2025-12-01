@@ -22,9 +22,9 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 * [CM5: Tests et sélection de modèle](CM/CM5_Tests_Model_Choice.html)
 * [CM5 (bonus): Sélection de variables](CM/CM5bis_Variable_Selection.html)
 * [CM6: Validation de modèle](CM/CM6_validation.html)
+* [CM7: ANOVA](CM/CM7_anova.html)
 
 <!---
-* [CM8: ANOVA](CM/CM8_anova.html)
 * [CM9: Modèles Mixtes](CM/CM9_mixed_models.html)
 -->
 
