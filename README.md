@@ -32,9 +32,9 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 
 * [TD1: Régression simple](TD/TD_1.pdf)
 * [TD2: Régression multiple](TD/TD_2.pdf)
+* [TD3: Sélection de modèle](TD/TD_3.pdf)
 
 <!---
-* [TD3: Sélection de modèle](TD/TD_3.pdf)
 -->
 
 ## TPs

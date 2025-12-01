@@ -6,8 +6,8 @@
 *.rdx
 *__*
 *.Rproj.user*
-*_hcode.R
-*_hcode.r
+*_hcode*.R
+*_hcode*.r
 CM/*.pdf
 # System specific files
 *.DS_Store
