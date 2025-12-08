@@ -23,9 +23,9 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 * [CM5 (bonus): Sélection de variables](CM/CM5bis_Variable_Selection.html)
 * [CM6: Validation de modèle](CM/CM6_validation.html)
 * [CM7: ANOVA](CM/CM7_anova.html)
+* [CM9: Modèles Mixtes](CM/CM9_mixed_models.html)
 
 <!---
-* [CM9: Modèles Mixtes](CM/CM9_mixed_models.html)
 -->
 
 ## TDs
@@ -40,9 +40,9 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 ## TPs
 
 * [TP1: Régression multiple](TP/TP1.html)
+* [TP2: ANOVA](TP/TP2.html)
 
 <!---
-* [TP2: ANOVA](TP/TP2.html)
 -->
 
 ## Cheat Sheets
