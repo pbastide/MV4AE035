@@ -231,6 +231,8 @@ $$
 $$~$$
 with $\mathbf{\Sigma}$ structured covariance matrix.
 
+# Sleep dataset example
+
 ## Mixed Model - Sleep
 
 For observation $i$ of group $k$:
@@ -257,8 +259,6 @@ s_A^2 + s_G^2 x_i x_{i'}& \text{if } k = k' \\
 0 & \text{otherwise.}
 \end{cases}
 $$
-
-# Sleep dataset example
 
 ## Mixed Model - Sleep {.smaller}
 
@@ -357,7 +357,15 @@ $$
 
 ```{r}
 fit_lmer <- lmer(Reaction ~ Days + (Days | Subject), data = sleepstudy)
-fit_lmer
+summary(fit_lmer)
+```
+
+## Tests are not exact anymore {.smaller}
+
+```{r}
+library(lmerTest)
+fit_lmer <- lmer(Reaction ~ Days + (Days | Subject), data = sleepstudy)
+summary(fit_lmer)
 ```
 
 # Examples of Mixed Models

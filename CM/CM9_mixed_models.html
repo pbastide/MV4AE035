@@ -1344,6 +1344,11 @@ s_A^2 &amp; \cdots &amp; s_A^2 &amp; \sigma^2 + s_A^2\\
 \mathbf{y} \sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta}, \mathbf{\Sigma})
 \]</span></p>
 <p><span class="math display">\[~\]</span> with <span class="math inline">\(\mathbf{\Sigma}\)</span> structured covariance matrix.</p>
+</section></section>
+<section>
+<section id="sleep-dataset-example" class="title-slide slide level1 center">
+<h1>Sleep dataset example</h1>
+
 </section>
 <section id="mixed-model---sleep" class="slide level2">
 <h2>Mixed Model - Sleep</h2>
@@ -1368,11 +1373,6 @@ s_A^2 + s_G^2 x_i x_{i&#39;}&amp; \text{if } k = k&#39; \\
 0 &amp; \text{otherwise.}
 \end{cases}
 \]</span></p>
-</section></section>
-<section>
-<section id="sleep-dataset-example" class="title-slide slide level1 center">
-<h1>Sleep dataset example</h1>
-
 </section>
 <section id="mixed-model---sleep-1" class="slide level2 smaller">
 <h2>Mixed Model - Sleep</h2>
@@ -1463,21 +1463,71 @@ s_A^2 + s_G^2 x_1x_n &amp; \cdots &amp; s_A^2 + s_G^2 x_nx_{n-1} &amp; \sigma^2 
 <h2>Sleep</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href></a>fit_lmer <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span>
-<span id="cb4-2"><a href></a>fit_lmer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href></a><span class="fu">summary</span>(fit_lmer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML [&#39;lmerMod&#39;]
 Formula: Reaction ~ Days + (Days | Subject)
    Data: sleepstudy
-REML criterion at convergence: 1743.628
+
+REML criterion at convergence: 1743.6
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.9536 -0.4634  0.0231  0.4634  5.1793 
+
 Random effects:
- Groups   Name        Std.Dev. Corr
- Subject  (Intercept) 24.741       
-          Days         5.922   0.07
- Residual             25.592       
+ Groups   Name        Variance Std.Dev. Corr
+ Subject  (Intercept) 612.10   24.741       
+          Days         35.07    5.922   0.07
+ Residual             654.94   25.592       
 Number of obs: 180, groups:  Subject, 18
-Fixed Effects:
-(Intercept)         Days  
-     251.41        10.47  </code></pre>
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  251.405      6.825  36.838
+Days          10.467      1.546   6.771
+
+Correlation of Fixed Effects:
+     (Intr)
+Days -0.138</code></pre>
+</div>
+</div>
+</section>
+<section id="tests-are-not-exact-anymore" class="slide level2 smaller">
+<h2>Tests are not exact anymore</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb6-2"><a href></a>fit_lmer <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span>
+<span id="cb6-3"><a href></a><span class="fu">summary</span>(fit_lmer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+lmerModLmerTest]
+Formula: Reaction ~ Days + (Days | Subject)
+   Data: sleepstudy
+
+REML criterion at convergence: 1743.6
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.9536 -0.4634  0.0231  0.4634  5.1793 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr
+ Subject  (Intercept) 612.10   24.741       
+          Days         35.07    5.922   0.07
+ Residual             654.94   25.592       
+Number of obs: 180, groups:  Subject, 18
+
+Fixed effects:
+            Estimate Std. Error      df t value Pr(&gt;|t|)    
+(Intercept)  251.405      6.825  17.000  36.838  &lt; 2e-16 ***
+Days          10.467      1.546  17.000   6.771 3.26e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Correlation of Fixed Effects:
+     (Intr)
+Days -0.138</code></pre>
 </div>
 </div>
 </section></section>
