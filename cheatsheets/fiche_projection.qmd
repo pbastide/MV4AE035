@@ -25,11 +25,11 @@ On trouve le meilleur $\hat{\beta}$ en minimisant la distance au carré entre $Y
 Imagine l'espace $\mathbb{R}^n$.
 
 * **Le point Y :** C'est notre point de départ.
-* [cite_start]**Le sous-espace $\mathcal{M}(X)$ :** C'est l'ensemble de tous les points qu'on peut former avec les colonnes de $X$ (combinaisons linéaires $X\alpha$) [cite: 1367-1369]. C'est notre "plan". Sa dimension est $p$.
-* [cite_start]**Trouver le plus proche ($\hat{Y}$) :** Le point $\hat{Y}$ dans $\mathcal{M}(X)$ qui est le plus proche de $Y$ est sa **projection orthogonale** sur $\mathcal{M}(X)$ (pense à une ombre projetée à angle droit) [cite: 1383-1386, 1272-1275].
+* **Le sous-espace $\mathcal{M}(X)$ :** C'est l'ensemble de tous les points qu'on peut former avec les colonnes de $X$ (combinaisons linéaires $X\alpha$). C'est notre "plan". Sa dimension est $p$.
+* **Trouver le plus proche ($\hat{Y}$) :** Le point $\hat{Y}$ dans $\mathcal{M}(X)$ qui est le plus proche de $Y$ est sa **projection orthogonale** sur $\mathcal{M}(X)$ (pense à une ombre projetée à angle droit).
 
 ![Projection orthogonale de Y sur le sous-espace M(X)](regressiongraph.png)
-
+*(Source : Polycopié de cours, Arnaud Guyader)*
 * **$\hat{Y}$ et $\hat{\beta}$ :** Puisque $\hat{Y}$ est dans $\mathcal{M}(X)$, il s'écrit $\hat{Y} = X\hat{\beta}$. Le $\hat{\beta}$ qui permet ça est exactement l'estimateur MCO.
 
 ---
@@ -39,28 +39,28 @@ Imagine l'espace $\mathbb{R}^n$.
 C'est l'outil mathématique qui fait la projection :
 
 * **Calcul :** $\hat{Y} = P_X Y$.
-* [cite_start]**Formule :** $P_X = X(X'X)^{-1}X'$ [cite: 1279-1280].
+* **Formule :** $P_X = X(X'X)^{-1}X'$ .
 * **Propriétés :** (Matrice $n \times n$)
-    * [cite_start]**Symétrique** : $P_X' = P_X$ [cite: 1418-1420].
-    * [cite_start]**Idempotente** : $P_X^2 = P_X$ (Projeter 2 fois = projeter 1 fois) [cite: 1418-1420].
-    * [cite_start]**Trace** : $Tr(P_X) = p$ (la dimension de l'espace $\mathcal{M}(X)$) [cite: 2900, 3110-3111].
+    * **Symétrique** : $P_X' = P_X$ .
+    * **Idempotente** : $P_X^2 = P_X$ (Projeter 2 fois = projeter 1 fois).
+    * **Trace** : $Tr(P_X) = p$ (la dimension de l'espace $\mathcal{M}(X)$).
 
 ---
 
 ## Les Résidus $\hat{\epsilon}$ et l'Espace Orthogonal $\mathcal{M}^\perp(X)$
 
-* [cite_start]**Définition :** C'est le vecteur qui relie la projection $\hat{Y}$ au point d'origine $Y$ : $\hat{\epsilon} = Y - \hat{Y}$ [cite: 1355-1358].
-* [cite_start]**Orthogonalité CLÉ :** Le vecteur $\hat{\epsilon}$ est **perpendiculaire** (orthogonal) à *tout* le sous-espace $\mathcal{M}(X)$ [cite: 1403-1406, 1292-1295].
+* **Définition :** C'est le vecteur qui relie la projection $\hat{Y}$ au point d'origine $Y$ : $\hat{\epsilon} = Y - \hat{Y}$ .
+* **Orthogonalité CLÉ :** Le vecteur $\hat{\epsilon}$ est **perpendiculaire** (orthogonal) à *tout* le sous-espace $\mathcal{M}(X)$ .
 * **L'espace $\mathcal{M}^\perp(X)$ :** C'est l'ensemble de tous les vecteurs perpendiculaires à $\mathcal{M}(X)$. Sa dimension est $n-p$. $\hat{\epsilon}$ est dedans.
-* [cite_start]**La Matrice $P_{X^\perp}$ (Projection sur l'orthogonal) :** C'est $P_{X^\perp} = I_n - P_X$ [cite: 1300, 1468-1469].
-* [cite_start]**Calcul des résidus :** $\hat{\epsilon} = P_{X^\perp} Y$ [cite: 1355-1358].
+* **La Matrice $P_{X^\perp}$ (Projection sur l'orthogonal) :** C'est $P_{X^\perp} = I_n - P_X$ .
+* **Calcul des résidus :** $\hat{\epsilon} = P_{X^\perp} Y$ .
 * **Propriétés de $P_{X^\perp}$ :** Symétrique, idempotente, et $Tr(P_{X^\perp}) = n-p$.
 
 ---
 
 ## Application : Pourquoi la somme des résidus est nulle
 
-[cite_start]C'est une conséquence directe de l'orthogonalité (si le modèle a un intercept) [cite: 1510-1513] :
+C'est une conséquence directe de l'orthogonalité (si le modèle a un intercept)  :
 
 1.  **Avoir un intercept :** Le vecteur $\mathbf{1} = (1, 1, ..., 1)^T$ est dans $\mathcal{M}(X)$.
 2.  **Orthogonalité :** $\hat{\epsilon}$ est orthogonal à *tous* les vecteurs de $\mathcal{M}(X)$, donc il est orthogonal à $\mathbf{1}$.
@@ -72,9 +72,9 @@ C'est l'outil mathématique qui fait la projection :
 
 ## Application : Théorème de Pythagore
 
-[cite_start]Puisque $\hat{Y}$ et $\hat{\epsilon}$ sont orthogonaux [cite: 1464-1466] :
-[cite_start]$$||Y||^2 = ||\hat{Y}||^2 + ||\hat{\epsilon}||^2$$ [cite: 1432-1433]
-[cite_start]C'est ça qui permet de calculer $SCR = ||Y||^2 - ||\hat{Y}||^2$, comme dans l'exercice du CC [cite: 3922-3923].
+Puisque $\hat{Y}$ et $\hat{\epsilon}$ sont orthogonaux  :
+$$||Y||^2 = ||\hat{Y}||^2 + ||\hat{\epsilon}||^2$$ 
+C'est ça qui permet de calculer $SCR = ||Y||^2 - ||\hat{Y}||^2$, comme dans l'exercice du CC .
 
 
 
