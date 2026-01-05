@@ -45,9 +45,14 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 <!---
 -->
 
-## Cheat Sheets
+## Fiches Synthétiques
+
+**Attention**: ces fiches ont été produites par des étudiant·e·s,
+et peuvent contenir des erreurs.
 
 * [Usual Distributions](cheatsheets/usual_distributions.html)
+* [Régression Multiple : Interprétation Géométrique des Projections](cheatsheets/fiche_projection.html) par [@Nigilan-rgb](https://github.com/Nigilan-rgb)
+* [Formulaire : Régression Linéaire Simple et Multiple](cheatsheets/fiche_formule.html) par [@Nigilan-rgb](https://github.com/Nigilan-rgb)
 
 ## Annales
 
@@ -66,11 +71,11 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 ## Points bonus
 
 * Typos et erreurs dans les diapos et fiches
-  * k-ème PR accepté = 1 / 2<sup>k</sup> points en plus sur la note du EI.
+  * k-ème PR accepté = 1 / 2<sup>k</sup> points en plus sur la note de l'EI.
   * Vaut aussi pour les fiches de vos collègues.
   
 * Fiches synthétiques
-  * k-ème fiche acceptée (PR) = 1 / 2<sup>k-1</sup> points en plus sur la note du EI.
+  * k-ème fiche acceptée (PR) = 1 / 2<sup>k</sup> points en plus sur la note de l'EI.
   
 ## Contributions
 

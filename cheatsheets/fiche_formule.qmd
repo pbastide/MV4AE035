@@ -2,6 +2,7 @@
 title: "Formulaire : Régression Linéaire Simple et Multiple"
 author: "Nigilan"
 format: html
+embed-resources: true
 ---
 
 ## Objectif
