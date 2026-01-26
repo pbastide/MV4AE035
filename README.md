@@ -61,6 +61,7 @@ et peuvent contenir des erreurs.
   - 2025-2026 : [énoncé](exams/2025_S1_CC_final.pdf) et [corrigé](exams/2025_S1_CC_final_cor.pdf).
 * Examen final :
   - 2024-2025 : [énoncé](exams/2025_session1.pdf) et [corrigé](exams/2025_session1_cor.pdf).
+  - 2025-2026 : [énoncé](exams/2025-26_session1_eno.pdf) et [corrigé](exams/2025-26_session1_cor.pdf).
 
 ## Evaluations
 
