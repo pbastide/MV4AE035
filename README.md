@@ -75,7 +75,7 @@ et peuvent contenir des erreurs.
   * Vaut aussi pour les fiches de vos collègues.
   
 * Fiches synthétiques
-  * k-ème fiche acceptée (PR) = 1 / 2<sup>k</sup> points en plus sur la note de l'EI.
+  * k-ème fiche acceptée (PR) = 1 / 2<sup>k-1</sup> points en plus sur la note de l'EI.
   
 ## Contributions
 
