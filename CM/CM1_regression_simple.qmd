@@ -1,7 +1,7 @@
 ---
 title: 'Régression simple - I'
 author: "Paul Bastide"
-date: "2025-09-16"
+date: "2026-09-15"
 format:
   revealjs: 
     theme: simple
