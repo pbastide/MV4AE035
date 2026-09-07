@@ -9,6 +9,7 @@
 *_hcode*.R
 *_hcode*.r
 CM/*.pdf
+TP/*_rendus/
 # System specific files
 *.DS_Store
 *~
