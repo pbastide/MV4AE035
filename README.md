@@ -16,6 +16,8 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 ## Supports de cours
 
 * [CM1: Régression simple - MCO](CM/CM1_regression_simple.html)
+
+<!---
 * [CM2: Régression simple - Gaussien](CM/CM2_regression_simple_gauss.html)
 * [CM3: Régression multiple - MCO](CM/CM3_Regression_Multiple_OLS.html)
 * [CM4: Régression multiple - Gaussien](CM/CM4_Regression_Multiple_Gauss.html)
@@ -24,25 +26,22 @@ déployée depuis le dépôt [`git`](https://github.com/pbastide/MV4AE035).
 * [CM6: Validation de modèle](CM/CM6_validation.html)
 * [CM7: ANOVA](CM/CM7_anova.html)
 * [CM9: Modèles Mixtes](CM/CM9_mixed_models.html)
-
-<!---
 -->
 
 ## TDs
 
 * [TD1: Régression simple](TD/TD_1.pdf)
-* [TD2: Régression multiple](TD/TD_2.pdf)
-* [TD3: Sélection de modèle](TD/TD_3.pdf)
 
 <!---
+* [TD2: Régression multiple](TD/TD_2.pdf)
+* [TD3: Sélection de modèle](TD/TD_3.pdf)
 -->
 
 ## TPs
 
+<!---
 * [TP1: Régression multiple](TP/TP1.html)
 * [TP2: ANOVA](TP/TP2.html)
-
-<!---
 -->
 
 ## Fiches Synthétiques
