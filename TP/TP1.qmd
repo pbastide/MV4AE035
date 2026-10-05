@@ -1,5 +1,5 @@
 ---
-title: "TP1 - Régression multiple"
+title: "TP1 - Régression simple et régression multiple"
 format: html
 author: "PB"
 embed-resources: true
@@ -21,6 +21,32 @@ Vous pouvez partir de ce document pour créer votre rapport,
 ou bien en créer un nouveau depuis `Rstudio` :
 `File > New File > Quarto Document...`.
 
+## `R` et documentation
+
+Dans ce TP, nous utilisons plusieurs fonctions de `R`, qui sont toutes signalées dans le texte.
+Lorsqu'une nouvelle fonction apparaît, je vous invite à lire l'aide associée à la fonction
+dans `R` directement, en tapant directement dans la console `?` suivit du nom de la fonction. 
+Par exemple, pour avoir de l'aide sur la fonction `lm` :
+```{r}
+#| eval: false
+?lm
+```
+
+L'aide de `R`, écrite directement par les personnes ayant développée les fonctions,
+est en générale bien écrite. Il est utile de savoir naviguer dans ces pages de documentation.
+Pour les fonctions de base que nous utilisons, votre LLM favori vous fournira 
+bien entendu des exemples et explications détaillées. 
+L'une des forces de `R` est que c'est un langage modulable, avec de nombreuses
+librairies écrites par des chercheurs et chercheuses, pour résoudre des problèmes
+avancés. Ces librairies auront toujours une documentation, mais ne seront pas toujours 
+bien représentées par les LLM, car nouvelles. Dans une perspective de recherche
+et développement, il est donc utile de savoir lire cette documentation.
+
+De manière similaire, ce TP en entier peut être "résolu" parfaitement par un LLM,
+les questions étant très classiques. Comme pour les exercices de TD, l'objectif
+principal est de vous entraîner, et de traduire les notions vues en cours en
+des exemples concrets d'application. Je vous invite donc à tenter de répondre aux
+questions sans aide, au moins dans un premier temps.
 
 ## Données
 
@@ -58,12 +84,15 @@ Décrivez brièvement ces variables, en précisant leur type (discret ou continu
 
 ## Régression simple
 
-On s’intéresse d'abord au prix médian des maisons dans une ville (`medv`) 
+On s'intéresse d'abord au prix médian des maisons dans une ville (`medv`) 
 en fonction du pourcentage de foyers avec un statut socio-économique faible (`lstat`).
 
 2. Tracer le nuage de point correspondant à ces deux variables.
 On pourra utiliser la librairie `ggplot2` et le code ci-dessous.
 Que pensez-vous de la relation entre les deux variables ?
+Les hypothèses classiques du modèle linéaire semblent elles vérifiées ?
+(Ces points sont à discuter de manière qualitative, nous verrons plus tard dans le cours
+des manières plus rigoureuses de tester ces hypothèses).
 ```{r}
 #| eval: false
 library(ggplot2)
@@ -75,7 +104,14 @@ ggplot(Boston, aes(x = lstat, y = medv)) +
 à l'aide de la fonction `lm`.
 Interprétez les coefficients. Sont-ils significativement non nuls ?
 Donnez un intervalle de confiance à $90%$ des coefficients.
-On pourra utiliser les fonctions `summary`, `coef` et `confint`.
+On pourra utiliser les fonctions `summary`, `coef` et `confint`,
+en utilisant le squelette suivant :
+```{r}
+#| eval: false
+fit1 <- lm(medv ~ lstat, data = Boston)
+summary(fit1)
+confint(fit1)
+```
 
 4. Tracez la droite de régression sur le nuage de points
 en utilisant le code suivant.
@@ -89,7 +125,7 @@ ggplot(Boston, aes(x = lstat, y = medv)) +
 ```
 
 5. Donnez un intervalle de prédiction à $95%$ pour la valeur de `medv`
-lorsque `lstat` vaut $2$, $15$, $30$ et $50$ pourcent à l'aide de la fonction `predict`.
+lorsque `lstat` vaut $2$, $15$, $30$ et $50$ pour cent à l'aide de la fonction `predict`.
 Quand est-ce que l'intervalle est le plus grand ? Est-ce surprenant ?
 Discutez de la validité des prédictions, en particulier pour `lstat=50`.
 
@@ -110,24 +146,62 @@ ggplot(Boston, aes(x = lstat, y = medv)) +
   geom_ribbon(data = pred_grid, aes(y = fit, ymin = lwr, ymax = upr), alpha = 0.1)
 ```
 
-8. Que vaut la statistique de Fisher pour ce model ? 
-Montrez que dans ce cas, elle peut être vue comme la statistique de Student 
-d'un des coefficients mise au carré. Interprétez.
+<!-- 8. Que vaut la statistique de Fisher pour ce model ?  -->
+<!-- Montrez que dans ce cas, elle peut être vue comme la statistique de Student  -->
+<!-- d'un des coefficients mise au carré. Interprétez. -->
 
 ## Régression multiple
+
+En régression multiple, on explique une variable à prédire
+(ici, `medv`), en fonction de *plusieurs* prédicteurs.
+Nous verrons en cours très prochainement comment cette régression multiple
+est formulée d'un point de vue mathématique et statistique.
+D'un point de vue pratique, il s'agit simplement d'ajouter
+des termes à la formule de prédiction, par exemple :
+```{r}
+#| eval: false
+fit2 <- lm(medv ~ lstat + indus, data = Boston)
+```
+représente le modèle linéaire suivant :
+$$
+\mbox{mdev}_i = \beta_0 + \beta_1 \times \mbox{lstat}_i + \beta_2 \times \mbox{indus}_i + \epsilon_i
+$$
+où $\mbox{mdev}_i$, $\mbox{lstat}_i$ et $\mbox{indus}_i$ sont les variables mesurées 
+pour l'individu $i$ ($1 \leq i \leq n$), $\epsilon_i$ l'erreur associée au modèle,
+qui est supposée i.i.d. gaussienne, centrée et de variance $\sigma^2$ 
+($\epsilon_i \sim \mathcal{N}(0, \sigma^2)$).
+La commande `lm` trouve les estimateurs 
+$\hat{\beta}_0$, $\hat{\beta}_0$, $\hat{\beta}_0$ et $\hat{\sigma}^2$
+associés au modèle (par la méthode des moindres carrés),
+et les fonctions `summary`, `confint`, `predict`, etc 
+utilisent la distribution de ces estimateurs pour réaliser des tests 
+statistiques ou construire des intervalles de confiance.
+
+8. Faire la régression linéaire simple de `medv` en fonction de `lstat`
+et `indus`.
+Interprétez les coefficients en utilisant la fonction `summary`.
+Sont-ils significativement non nuls ? 
+Qu'est-ce que cela signifie pour l'influence des variables `lstat` et `indus`
+sur la variable à prédire `medv` ?
+Comparez le $R^2$ associé à ce modèle à celui associé au modèle de régression
+simple de la section précédente. Que pouvez-vous en dire ?
 
 9. Faire la régression de `medv` contre toutes les autres variables du jeu de données.
 On pourra utiliser la formule `medv ~ .`, qui est un raccourci
 pour éviter d'avoir à écrire toutes les variables à la main.
-Interprétez les résultats en utilisant la fonction `summary`.
+Interprétez les résultats.
+Y-a-t-il des coefficients non significatifs ?
+Que vaut le $R^2$ ?
 
 10. En utilisant la formula `medv ~ . -age - indus`,
 faites la régression de `medv` contre toutes les variables, sauf `age` et `indus`.
 Interprétez.
 Quel modèle préférez-vous ?
 
-11. Faites le test de Fisher emboîté entre les deux modèles à l'aide de la fonction `anova`.
-Interprétez. Est-ce cohérent avec les résultats de la question précédente ?
+11. Nous verrons en cours comment utiliser un test de Fisher pour choisir de manière
+rigoureuse entre les deux modèles. Ce test peut être fait à l'aide de la fonction `anova`.
+En utilisant la documentation, utilisez cette fonction, et interprétez.
+Est-ce cohérent avec les résultats de la question précédente ?
 
 12. Faites la régression linéaire de `medv` contre les seules variables `age` et `indus`.
 Interprétez le résultat.
@@ -141,13 +215,16 @@ Comment a évolué le $R^2$ ?
 Est-ce normal ?
 Que ce passe-t-il si vous ajoutez plusieurs variables de bruit ?
 
+Nous verrons en cours pourquoi ce comportement est attendu, et plusieurs
+stratégies pour y remédier.
+
 ## Transformation de données
 
 14. Faites la régression de `medv` contre `lstat` et `log(lstat)`
 à l'aide de la formule `medv ~ lstat + log(lstat)`.
 Interprétez.
 
-15. Faites la régression de `medv` contre `lstat`, `lstat^2`
+15. Faites la régression de `medv` contre `lstat` et `lstat^2`
 à l'aide de la formule `medv ~ lstat + I(lstat^2)`.
 Interprétez.
 
@@ -161,4 +238,7 @@ Interprétez.
 > Remarque : la fonction `poly` retourne les polynomes orthogonalisés, et non
 > les puissances simples, comme détaillé dans l'aide `?poly`.
 
-
+Cette section illustre deux points principaux : premièrement, qu'il est possible
+de faire des régression linéaires contre des variables préalablement
+transformer pour rendre compte de relations complexes, et deuxièmement qu'il
+peut être difficile de choisir la bonne transformation à appliquer.
